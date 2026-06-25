@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AM Learning Passport · 安湃声</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#C8102E;--red-light:#FDF0F2;--red-dark:#8B0A1E;
+  --navy:#1C2B4A;--navy-light:#EEF0F8;
+  --green-light:#EAF3DE;--green-dark:#27500A;
+  --amber-light:#FFF3CD;--amber-dark:#856404;
+  --bg:#fff;--bg2:#f7f7f7;--bg3:#eee;
+  --t1:#1a1a1a;--t2:#666;--t3:#999;
+  --b1:rgba(0,0,0,0.10);--b2:rgba(0,0,0,0.18);
+  --r1:8px;--r2:12px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;background:#e0e0e0;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:20px 0}
+.phone{width:375px;background:var(--bg);border-radius:40px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.25);min-height:700px;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;flex:1}
+.screen.active{display:flex}
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scroll-area::-webkit-scrollbar{display:none}
+
+#loading{position:fixed;inset:0;background:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity 0.4s}
+#loading.hidden{opacity:0;pointer-events:none}
+.loading-logo{font-size:11px;color:rgba(255,255,255,0.75);letter-spacing:3px;margin-bottom:8px}
+.loading-title{font-size:24px;color:#fff;font-weight:500;margin-bottom:32px}
+.loading-spinner{width:28px;height:28px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
+.loading-msg{font-size:12px;color:rgba(255,255,255,0.6);margin-top:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* COVER */
+.cover-bg{background:var(--red);padding:32px 24px 28px;display:flex;flex-direction:column}
+.cover-logo{font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:2.5px;font-weight:500;margin-bottom:3px}
+.cover-brand{font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:44px}
+.cover-eyebrow{font-size:10px;color:rgba(255,255,255,0.55);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.cover-title{font-size:26px;color:#fff;font-weight:500;line-height:1.2;margin-bottom:10px}
+.cover-sub{font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:16px}
+.cover-group-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:0.5px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 14px;font-size:12px;color:#fff;margin-bottom:20px}
+.cover-holder-card{background:rgba(255,255,255,0.12);border-radius:14px;padding:14px 16px}
+.cover-holder-label{font-size:9px;color:rgba(255,255,255,0.55);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.cover-holder-name{font-size:20px;color:#fff;font-weight:500;margin-bottom:2px}
+.cover-holder-sub{font-size:12px;color:rgba(255,255,255,0.7)}
+.cover-holder-date{font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px}
+.cover-progress-section{padding:16px 20px 12px}
+.cover-progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cover-progress-label{font-size:13px;font-weight:500;color:var(--t1)}
+.cover-progress-sub{font-size:11px;color:var(--t2);margin-top:1px}
+.cover-progress-pct{font-size:22px;font-weight:500;color:var(--red)}
+.progress-track{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:var(--red);border-radius:3px;transition:width 0.6s ease}
+.module-dots{display:flex;gap:6px}
+.module-dot{flex:1;height:5px;border-radius:3px}
+.module-dot.done{background:var(--red)}
+.module-dot.pending{background:var(--red-light);border:0.5px dashed var(--red)}
+.module-dot.locked{background:var(--bg3)}
+.module-dot-label{flex:1;font-size:9px;color:var(--t3);text-align:center;margin-top:4px}
+.module-dot-label.active-label{color:var(--red)}
+
+/* PAGE HEADER */
+.page-header{background:var(--red);padding:16px 20px 14px;flex-shrink:0}
+.page-header-row{display:flex;align-items:center;gap:10px}
+.back-btn{color:rgba(255,255,255,0.8);font-size:22px;cursor:pointer;line-height:1}
+.page-header-title{font-size:15px;color:#fff;font-weight:500}
+.page-header-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px}
+
+/* NAV */
+.nav-bar{display:flex;border-top:0.5px solid var(--b1);background:var(--bg);flex-shrink:0}
+.nav-item{flex:1;padding:10px 4px;text-align:center;cursor:pointer;font-size:10px;color:var(--t3);transition:color 0.15s}
+.nav-item.active{color:var(--red)}
+.nav-item i{display:block;font-size:22px;margin-bottom:2px}
+
+/* NAV ADMIN */
+.nav-bar-admin{display:flex;border-top:0.5px solid var(--b1);background:var(--bg);flex-shrink:0}
+.nav-item-admin{flex:1;padding:10px 4px;text-align:center;cursor:pointer;font-size:10px;color:var(--t3)}
+.nav-item-admin.active{color:var(--navy)}
+.nav-item-admin i{display:block;font-size:22px;margin-bottom:2px}
+
+/* ADMIN HEADER */
+.admin-header{background:var(--navy);padding:16px 20px 14px;flex-shrink:0}
+.admin-header-title{font-size:15px;color:#fff;font-weight:500}
+.admin-header-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px}
+.admin-header-row{display:flex;align-items:center;gap:10px}
+
+/* STAMPS */
+.stamps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 18px}
+.stamp-card{border:0.5px solid var(--b1);border-radius:var(--r2);padding:16px 12px;cursor:pointer;background:var(--bg);transition:all 0.15s}
+.stamp-card.unlocked{border-color:var(--red)}
+.stamp-card.locked{opacity:0.5;cursor:default}
+.stamp-circle{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.stamp-circle.done{background:var(--red)}
+.stamp-circle.pending{background:var(--red-light);border:1.5px dashed var(--red)}
+.stamp-circle.locked-c{background:var(--bg2);border:1.5px dashed var(--b1)}
+.stamp-name{font-size:12px;font-weight:500;color:var(--t1);text-align:center;line-height:1.35}
+.stamp-status-text{font-size:10px;text-align:center;margin-top:4px}
+.stamp-status-text.done{color:var(--red)}
+.stamp-status-text.pending{color:var(--red);opacity:0.75}
+.stamp-status-text.locked-s{color:var(--t3)}
+
+.section-label{font-size:10px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;padding:12px 20px 4px}
+.banner{border-radius:var(--r1);padding:10px 14px;font-size:12px;line-height:1.55;display:flex;align-items:flex-start;gap:8px;margin:0 18px 12px}
+.banner i{font-size:16px;flex-shrink:0;margin-top:1px}
+.banner.red{background:var(--red-light);color:var(--red-dark)}
+.banner.green{background:var(--green-light);color:var(--green-dark)}
+.banner.navy{background:var(--navy-light);color:var(--navy)}
+.banner.amber{background:var(--amber-light);color:var(--amber-dark)}
+
+.task-wrap{padding:0 18px 12px}
+.task-card{background:var(--bg);border:0.5px solid var(--b1);border-radius:var(--r2);padding:14px;margin-bottom:10px}
+.task-card.highlight{border-color:var(--red)}
+.task-title{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:4px}
+.task-desc{font-size:12px;color:var(--t2);line-height:1.55}
+.task-meta{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500}
+.badge.done{background:var(--green-light);color:var(--green-dark)}
+.badge.waiting{background:var(--red-light);color:var(--red-dark)}
+.badge.todo{background:var(--bg2);color:var(--t2)}
+.task-date{font-size:11px;color:var(--t3)}
+
+.submit-form{background:var(--bg2);border-radius:var(--r1);padding:12px;margin-top:10px}
+.submit-form label{font-size:11px;color:var(--t2);display:block;margin-bottom:4px}
+.submit-form input,.submit-form textarea{width:100%;background:var(--bg);border:0.5px solid var(--b2);border-radius:6px;padding:8px 10px;font-size:12px;color:var(--t1);font-family:inherit;margin-bottom:8px;resize:vertical}
+.submit-form textarea{min-height:72px}
+
+.btn-primary{display:block;background:var(--red);color:#fff;border:none;border-radius:var(--r2);padding:14px;font-size:14px;font-weight:500;width:calc(100% - 36px);margin:0 18px 14px;cursor:pointer;text-align:center}
+.btn-text{font-size:12px;color:var(--red);cursor:pointer;text-decoration:underline;text-align:center;padding:4px 0 16px;display:block}
+
+.group-wrap{padding:0 18px 16px}
+.group-card{border:0.5px solid var(--b1);border-radius:var(--r2);padding:14px 16px;margin-bottom:10px;background:var(--bg)}
+.group-card.leader{border-color:var(--red)}
+.group-bar-track{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;margin:10px 0 8px}
+.group-bar-fill{height:100%;border-radius:4px;background:var(--red);transition:width 0.6s ease}
+
+/* ADMIN STYLES */
+.admin-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 18px 6px}
+.summary-card{background:var(--bg2);border-radius:var(--r1);padding:12px 14px}
+.summary-num{font-size:24px;font-weight:500;color:var(--navy);margin-bottom:2px}
+.summary-num.red{color:var(--red)}
+.summary-label{font-size:11px;color:var(--t2)}
+
+.am-progress-card{border:0.5px solid var(--b1);border-radius:var(--r2);padding:12px 14px;margin-bottom:8px;background:var(--bg);cursor:pointer}
+.am-progress-card:hover{border-color:var(--navy)}
+.am-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.am-name{font-size:13px;font-weight:500;color:var(--t1)}
+.am-group{font-size:11px;color:var(--t2);margin-top:1px}
+.am-pct{font-size:16px;font-weight:500;color:var(--navy)}
+.am-mini-track{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-bottom:6px}
+.am-mini-fill{height:100%;border-radius:2px;background:var(--navy);transition:width 0.4s}
+.am-mini-fill.complete{background:var(--red)}
+.am-stamps-row{display:flex;gap:4px}
+.am-stamp-dot{flex:1;height:4px;border-radius:2px}
+.am-stamp-dot.done{background:var(--red)}
+.am-stamp-dot.pending{background:var(--red-light);border:0.5px dashed var(--red)}
+.am-stamp-dot.todo{background:var(--bg3)}
+.am-pending-badge{font-size:10px;background:var(--amber-light);color:var(--amber-dark);padding:2px 7px;border-radius:10px;font-weight:500}
+
+.approve-row{display:flex;gap:8px;margin-top:12px}
+.approve-btn{flex:1;padding:11px;border-radius:var(--r1);font-size:13px;font-weight:500;border:none;cursor:pointer}
+.approve-btn.confirm{background:var(--red);color:#fff}
+.approve-btn.reject{background:var(--bg2);color:var(--t1);border:0.5px solid var(--b2)}
+
+/* AM DETAIL (admin view) */
+.am-detail-module-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:0.5px solid var(--b1)}
+.am-detail-module-row:last-child{border-bottom:none}
+.am-detail-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.am-detail-icon.done{background:var(--red)}
+.am-detail-icon.pending{background:var(--red-light);border:1px dashed var(--red)}
+.am-detail-icon.todo{background:var(--bg2);border:1px dashed var(--b1)}
+.am-detail-mod-name{font-size:13px;font-weight:500;color:var(--t1)}
+.am-detail-mod-sub{font-size:11px;color:var(--t2);margin-top:1px}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--bg);border-radius:20px;padding:28px 24px;width:100%;max-width:320px;text-align:center}
+.modal-icon{width:76px;height:76px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.modal-title{font-size:19px;font-weight:500;color:var(--t1);margin-bottom:8px}
+.modal-sub{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:22px}
+.modal-btn{width:100%;padding:13px;border-radius:var(--r2);font-size:14px;font-weight:500;border:none;cursor:pointer;background:var(--red);color:#fff;margin-bottom:10px}
+.modal-btn-sec{width:100%;padding:12px;border-radius:var(--r2);font-size:13px;border:0.5px solid var(--b2);background:transparent;color:var(--t1);cursor:pointer}
+.modal-btn-navy{width:100%;padding:13px;border-radius:var(--r2);font-size:14px;font-weight:500;border:none;cursor:pointer;background:var(--navy);color:#fff;margin-bottom:10px}
+
+.error-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;padding:40px;text-align:center}
+.error-screen i{font-size:48px;color:var(--t3);margin-bottom:16px}
+.error-screen h3{font-size:16px;color:var(--t1);margin-bottom:8px}
+.error-screen p{font-size:13px;color:var(--t2);line-height:1.6}
+
+.tab-row{display:flex;border-bottom:0.5px solid var(--b1);background:var(--bg);flex-shrink:0}
+.tab-btn{flex:1;padding:10px 4px;text-align:center;font-size:12px;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:500}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-logo">AMPLIFON · 安湃声</div>
+  <div class="loading-title">学习护照</div>
+  <div class="loading-spinner"></div>
+  <div class="loading-msg" id="loading-msg">正在读取数据...</div>
+</div>
+
+<div class="phone" id="app">
+
+  <!-- ══ AM: COVER ══ -->
+  <div id="sc-cover" class="screen active">
+    <div class="scroll-area">
+      <div class="cover-bg">
+        <div><div class="cover-logo">AMPLIFON · 安湃声</div><div class="cover-brand">Your hearing. Your life.</div></div>
+        <div>
+          <div class="cover-eyebrow">学习护照 · Learning Passport</div>
+          <div class="cover-title">Area Manager<br>Soft Skill Program</div>
+          <div class="cover-sub">2025 – 2026 培训旅程<br>完成每个模块作业，获得专属印章</div>
+          <div class="cover-group-pill"><i class="ti ti-map-pin" style="font-size:13px"></i><span id="cover-group-label">—</span></div>
+          <div class="cover-holder-card">
+            <div class="cover-holder-label">持照人</div>
+            <div class="cover-holder-name" id="cover-name">—</div>
+            <div class="cover-holder-sub" id="cover-sub">—</div>
+            <div class="cover-holder-date">发放日期：2025年 9月 1日</div>
+          </div>
+        </div>
+      </div>
+      <div class="cover-progress-section">
+        <div class="cover-progress-row">
+          <div><div class="cover-progress-label">我的旅程进度</div><div class="cover-progress-sub" id="cover-stamp-count">已获得 0 / 4 枚印章</div></div>
+          <div class="cover-progress-pct" id="cover-pct">0%</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="cover-fill" style="width:0%"></div></div>
+        <div class="module-dots" id="cover-dots"></div>
+        <div class="module-dots" id="cover-dot-labels" style="margin-top:4px"></div>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <div class="nav-item active" onclick="go('cover')"><i class="ti ti-id-badge"></i>护照</div>
+      <div class="nav-item" onclick="go('stamps')"><i class="ti ti-rosette"></i>集章</div>
+      <div class="nav-item" onclick="go('group')"><i class="ti ti-trophy"></i>排行</div>
+    </div>
+  </div>
+
+  <!-- ══ AM: STAMPS ══ -->
+  <div id="sc-stamps" class="screen">
+    <div class="page-header"><div class="page-header-title" id="stamps-title">集章进度</div><div class="page-header-sub" id="stamps-sub">已完成 0 / 4 枚印章</div></div>
+    <div class="scroll-area">
+      <div style="padding:14px 18px 6px"><div class="progress-track"><div class="progress-fill" id="stamps-fill" style="width:0%"></div></div></div>
+      <div class="section-label">培训模块</div>
+      <div class="stamps-grid" id="stamps-grid"></div>
+    </div>
+    <div class="nav-bar">
+      <div class="nav-item" onclick="go('cover')"><i class="ti ti-id-badge"></i>护照</div>
+      <div class="nav-item active"><i class="ti ti-rosette"></i>集章</div>
+      <div class="nav-item" onclick="go('group')"><i class="ti ti-trophy"></i>排行</div>
+    </div>
+  </div>
+
+  <!-- ══ AM: DETAIL ══ -->
+  <div id="sc-detail" class="screen">
+    <div class="page-header">
+      <div class="page-header-row">
+        <div class="back-btn" onclick="go('stamps')"><i class="ti ti-arrow-left"></i></div>
+        <div><div class="page-header-title" id="detail-title">模块详情</div><div class="page-header-sub" id="detail-sub"></div></div>
+      </div>
+    </div>
+    <div class="scroll-area"><div id="detail-content" style="padding-top:4px"></div></div>
+    <div class="nav-bar">
+      <div class="nav-item" onclick="go('cover')"><i class="ti ti-id-badge"></i>护照</div>
+      <div class="nav-item active" onclick="go('stamps')"><i class="ti ti-rosette"></i>集章</div>
+      <div class="nav-item" onclick="go('group')"><i class="ti ti-trophy"></i>排行</div>
+    </div>
+  </div>
+
+  <!-- ══ AM: GROUP ══ -->
+  <div id="sc-group" class="screen">
+    <div class="page-header"><div class="page-header-title">小组排行榜</div><div class="page-header-sub">东区 · 南区 · 北区 实时进度</div></div>
+    <div class="scroll-area">
+      <div style="padding:14px 18px 6px"><div class="banner amber"><i class="ti ti-info-circle"></i><span>集满 <strong>4 枚印章</strong>即可参加毕业典礼</span></div></div>
+      <div class="section-label">各区进度</div>
+      <div class="group-wrap" id="group-wrap"></div>
+    </div>
+    <div class="nav-bar">
+      <div class="nav-item" onclick="go('cover')"><i class="ti ti-id-badge"></i>护照</div>
+      <div class="nav-item" onclick="go('stamps')"><i class="ti ti-rosette"></i>集章</div>
+      <div class="nav-item active"><i class="ti ti-trophy"></i>排行</div>
+    </div>
+  </div>
+
+  <!-- ══ ADMIN: OVERVIEW ══ -->
+  <div id="sc-admin-overview" class="screen">
+    <div class="admin-header">
+      <div class="admin-header-title" id="admin-header-name">管理视图</div>
+      <div class="admin-header-sub" id="admin-header-sub">全员进度总览</div>
+    </div>
+    <div class="tab-row">
+      <div class="tab-btn active" id="tab-overview" onclick="switchAdminTab('overview')">进度总览</div>
+      <div class="tab-btn" id="tab-approve" onclick="switchAdminTab('approve')">待审批</div>
+    </div>
+    <div class="scroll-area" id="admin-scroll">
+      <div id="admin-overview-content"></div>
+    </div>
+    <div class="nav-bar-admin">
+      <div class="nav-item-admin active" onclick="switchAdminTab('overview')"><i class="ti ti-layout-grid"></i>总览</div>
+      <div class="nav-item-admin" onclick="switchAdminTab('approve')"><i class="ti ti-check"></i>审批</div>
+      <div class="nav-item-admin" onclick="go('admin-group')"><i class="ti ti-trophy"></i>排行</div>
+    </div>
+  </div>
+
+  <!-- ══ ADMIN: AM DETAIL ══ -->
+  <div id="sc-admin-am-detail" class="screen">
+    <div class="admin-header">
+      <div class="admin-header-row">
+        <div class="back-btn" style="color:rgba(255,255,255,0.8);font-size:22px;cursor:pointer" onclick="go('admin-overview')"><i class="ti ti-arrow-left"></i></div>
+        <div><div class="admin-header-title" id="admin-am-detail-name">AM 详情</div><div class="admin-header-sub" id="admin-am-detail-sub"></div></div>
+      </div>
+    </div>
+    <div class="scroll-area"><div id="admin-am-detail-content" style="padding-top:4px"></div></div>
+    <div class="nav-bar-admin">
+      <div class="nav-item-admin" onclick="go('admin-overview')"><i class="ti ti-layout-grid"></i>总览</div>
+      <div class="nav-item-admin" onclick="switchAdminTab('approve')"><i class="ti ti-check"></i>审批</div>
+      <div class="nav-item-admin" onclick="go('admin-group')"><i class="ti ti-trophy"></i>排行</div>
+    </div>
+  </div>
+
+  <!-- ══ ADMIN: GROUP ══ -->
+  <div id="sc-admin-group" class="screen">
+    <div class="admin-header"><div class="admin-header-title">小组排行榜</div><div class="admin-header-sub">东区 · 南区 · 北区</div></div>
+    <div class="scroll-area">
+      <div style="padding:14px 18px 6px"><div class="banner amber"><i class="ti ti-info-circle"></i><span>集满 <strong>4 枚印章</strong>即可参加毕业典礼</span></div></div>
+      <div class="section-label">各区进度</div>
+      <div class="group-wrap" id="admin-group-wrap"></div>
+    </div>
+    <div class="nav-bar-admin">
+      <div class="nav-item-admin" onclick="go('admin-overview')"><i class="ti ti-layout-grid"></i>总览</div>
+      <div class="nav-item-admin" onclick="switchAdminTab('approve')"><i class="ti ti-check"></i>审批</div>
+      <div class="nav-item-admin active" onclick="go('admin-group')"><i class="ti ti-trophy"></i>排行</div>
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div id="sc-error" class="screen">
+    <div class="error-screen"><i class="ti ti-alert-circle"></i><h3 id="error-title">链接无效</h3><p id="error-msg">请联系刘婧获取帮助。</p></div>
+  </div>
+
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-stamp">
+  <div class="modal-box">
+    <div class="modal-icon"><i class="ti ti-rosette" style="color:#fff;font-size:34px"></i></div>
+    <div class="modal-title">印章已盖上！</div>
+    <div class="modal-sub" id="modal-stamp-sub">恭喜获得新印章</div>
+    <button class="modal-btn" onclick="closeModal('modal-stamp')">查看我的护照</button>
+    <button class="modal-btn-sec" onclick="closeModal('modal-stamp')">继续</button>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-approved">
+  <div class="modal-box">
+    <div class="modal-icon"><i class="ti ti-check" style="color:#fff;font-size:34px"></i></div>
+    <div class="modal-title">盖章成功！</div>
+    <div class="modal-sub" id="modal-approved-sub">印章已盖入护照</div>
+    <button class="modal-btn-navy" onclick="closeModal('modal-approved');switchAdminTab('approve')">返回审批列表</button>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-rejected">
+  <div class="modal-box">
+    <div class="modal-icon" style="background:var(--t2)"><i class="ti ti-arrow-back-up" style="color:#fff;font-size:30px"></i></div>
+    <div class="modal-title">已退回修改</div>
+    <div class="modal-sub" id="modal-rejected-sub">已通知 AM 重新提交</div>
+    <button class="modal-btn-navy" onclick="closeModal('modal-rejected');switchAdminTab('approve')">返回审批列表</button>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-submit-ok">
+  <div class="modal-box">
+    <div class="modal-icon" style="background:#27500A"><i class="ti ti-send" style="color:#fff;font-size:30px"></i></div>
+    <div class="modal-title">提交成功！</div>
+    <div class="modal-sub" id="modal-submit-sub">已提交，等待审批</div>
+    <button class="modal-btn" onclick="closeModal('modal-submit-ok');go('stamps')">返回集章页</button>
+  </div>
+</div>
+
+<script>
+const AT_TOKEN   = 'pat03THP7rvJ8JBiD.e0535d4c72e20dd58c737b65f3c05791a6cfa137585fe5c72df297c105a521f1';
+const AT_BASE    = 'appsHOMi2DV9Cr8In';
+const AT_HEADERS = {'Authorization':'Bearer '+AT_TOKEN,'Content-Type':'application/json'};
+
+const MODULES_DEF = [
+  {id:'intro',name:'Intro',    sub:'认知与角色定位',   icon:'ti-bulb',    locked:false},
+  {id:'m1',   name:'Module 1',sub:'Sales Performance',icon:'ti-map-pin', locked:false},
+  {id:'m2',   name:'Module 2',sub:'People Management',icon:'ti-users',   locked:true},
+  {id:'m3',   name:'Module 3',sub:'专业/赋能提升',    icon:'ti-star',    locked:true},
+];
+const ZONES=[
+  {key:'east', name:'东区',rad:'夏长安',radId:'RAD_EAST'},
+  {key:'north',name:'北区',rad:'宋临云',radId:'RAD_NORTH'},
+  {key:'south',name:'南区',rad:'蒋纯',  radId:'RAD_SOUTH'},
+];
+
+let S={currentUser:null,currentRad:null,isRad:false,isHR:false,allUsers:[],submissions:[],tasks:[],modules:[],adminTab:'overview',viewingAMId:null};
+
+/* ── AIRTABLE ── */
+async function atGet(table,params=''){
+  const url=`https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(table)}${params}`;
+  const res=await fetch(url,{headers:AT_HEADERS});
+  if(!res.ok) throw new Error(`Airtable error ${res.status}`);
+  const data=await res.json();
+  let records=data.records||[];
+  if(data.offset){const more=await atGet(table,(params.includes('?')?params+'&':'?')+'offset='+data.offset);records=records.concat(more);}
+  return records;
+}
+async function atCreate(table,fields){
+  const res=await fetch(`https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(table)}`,{method:'POST',headers:AT_HEADERS,body:JSON.stringify({fields})});
+  if(!res.ok) throw new Error(`Create error ${res.status}`);
+  return res.json();
+}
+async function atUpdate(table,id,fields){
+  const res=await fetch(`https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(table)}/${id}`,{method:'PATCH',headers:AT_HEADERS,body:JSON.stringify({fields})});
+  if(!res.ok) throw new Error(`Update error ${res.status}`);
+  return res.json();
+}
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded',async()=>{
+  const p=new URLSearchParams(location.search);
+  const uid=(p.get('id')||'').toUpperCase();
+  const rid=(p.get('rad')||'').toUpperCase();
+  const isHR=p.get('hr')==='1';
+  setMsg('正在读取用户数据...');
+  try{
+    const ur=await atGet('users'); S.allUsers=ur.map(r=>({_id:r.id,...r.fields}));
+    const tr=await atGet('tasks'); S.tasks=tr.map(r=>({_id:r.id,...r.fields}));
+    const mr=await atGet('modules'); S.modules=mr.map(r=>({_id:r.id,...r.fields}));
+    setMsg('正在读取进度数据...');
+    const sr=await atGet('submissions'); S.submissions=sr.map(r=>({_id:r.id,...r.fields}));
+    hideLoading();
+    if(isHR){
+      S.isHR=true; S.currentRad=S.allUsers.find(u=>u.Role==='HR')||{Name:'刘婧',UserID:'HRD'};
+      document.getElementById('admin-header-name').textContent='刘婧 · HR';
+      document.getElementById('admin-header-sub').textContent='全员进度总览 · Intro 审批';
+      renderAdminOverview(); go('admin-overview');
+    } else if(rid){
+      const ru=S.allUsers.find(u=>u.UserID===rid);
+      if(!ru){showError('总监链接无效','请联系刘婧重新获取');return;}
+      S.currentRad=ru; S.isRad=true;
+      document.getElementById('admin-header-name').textContent=ru.Name+' · '+ru.Group+'总监';
+      document.getElementById('admin-header-sub').textContent=ru.Group+'区进度总览 · 审批管理';
+      renderAdminOverview(); go('admin-overview');
+    } else if(uid){
+      const u=S.allUsers.find(x=>x.UserID===uid);
+      if(!u){showError('链接无效','请联系刘婧获取你的专属链接');return;}
+      S.currentUser=u; renderAll();
+    } else {
+      showError('请使用专属链接访问','请联系刘婧获取你的专属链接');
+    }
+  }catch(e){hideLoading();showError('网络错误','无法连接数据库：'+e.message);}
+});
+
+function setMsg(m){document.getElementById('loading-msg').textContent=m;}
+function hideLoading(){document.getElementById('loading').classList.add('hidden');}
+function showError(t,m){document.getElementById('error-title').textContent=t;document.getElementById('error-msg').textContent=m;go('error');}
+function go(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  const t=document.getElementById('sc-'+s);
+  if(t){t.classList.add('active');t.querySelector('.scroll-area')?.scrollTo(0,0);}
+}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function showModal(id){document.getElementById(id).classList.add('show');}
+
+/* ── HELPERS ── */
+function getUserSubs(uid){return S.submissions.filter(s=>s.UserID===uid);}
+function getModuleStamp(uid,mid){
+  const subs=getUserSubs(uid).filter(s=>s.ModuleID===mid);
+  if(!subs.length) return 'todo';
+  if(subs.every(s=>s.Status==='approved')) return 'done';
+  if(subs.some(s=>s.Status==='submitted')) return 'pending';
+  return 'todo';
+}
+function getStampCount(uid){return MODULES_DEF.filter(m=>getModuleStamp(uid,m.id)==='done').length;}
+function getApproverRole(mid){const m=S.modules.find(x=>x.ModuleID===mid);return m?.ApproverRole||'RAD';}
+function formatDate(d){if(!d)return'';const x=new Date(d);return`${x.getMonth()+1}月${x.getDate()}日`;}
+function getPendingCount(uid){return S.submissions.filter(s=>s.UserID===uid&&s.Status==='submitted').length;}
+
+/* ── AM RENDER ── */
+function renderAll(){
+  const u=S.currentUser; const count=getStampCount(u.UserID); const pct=Math.round(count/4*100);
+  document.getElementById('cover-name').textContent=u.Name;
+  document.getElementById('cover-sub').textContent=`${u.Group}区域经理 · Profile ${u.Profile}`;
+  document.getElementById('cover-group-label').textContent=`${u.Group}组 · ${u.RAD||''}带领`;
+  document.getElementById('cover-stamp-count').textContent=`已获得 ${count} / 4 枚印章`;
+  document.getElementById('cover-pct').textContent=pct+'%';
+  document.getElementById('cover-fill').style.width=pct+'%';
+  document.getElementById('stamps-title').textContent=`集章进度 · ${u.Name}`;
+  document.getElementById('stamps-sub').textContent=`已完成 ${count} / 4 枚印章`;
+  document.getElementById('stamps-fill').style.width=pct+'%';
+  document.getElementById('cover-dots').innerHTML=MODULES_DEF.map(m=>{
+    const s=getModuleStamp(u.UserID,m.id);
+    return`<div style="flex:1"><div class="module-dot ${s==='done'?'done':s==='pending'?'pending':'locked'}"></div></div>`;
+  }).join('');
+  document.getElementById('cover-dot-labels').innerHTML=MODULES_DEF.map((m,i)=>{
+    const s=getModuleStamp(u.UserID,m.id);
+    return`<div style="flex:1" class="module-dot-label ${s!=='locked'?'active-label':''}">${['Intro','M1','M2','M3'][i]}</div>`;
+  }).join('');
+  renderStamps(); renderGroup();
+}
+
+function renderStamps(){
+  const u=S.currentUser;
+  document.getElementById('stamps-grid').innerHTML=MODULES_DEF.map(md=>{
+    const status=getModuleStamp(u.UserID,md.id);
+    const mod=S.modules.find(m=>m.ModuleID===md.id);
+    const isLocked=status==='locked';
+    let circ='';
+    if(status==='done') circ=`<div class="stamp-circle done"><i class="ti ti-check" style="color:#fff;font-size:24px"></i></div>`;
+    else if(status==='pending') circ=`<div class="stamp-circle pending"><i class="ti ${md.icon}" style="color:var(--red);font-size:20px"></i></div>`;
+    else if(isLocked) circ=`<div class="stamp-circle locked-c"><i class="ti ti-lock" style="color:var(--t3);font-size:16px"></i></div>`;
+    else circ=`<div class="stamp-circle pending" style="border-style:solid"><i class="ti ${md.icon}" style="color:var(--red);font-size:20px"></i></div>`;
+    let sl='';
+    if(status==='done') sl=`<div class="stamp-status-text done">已获章</div>`;
+    else if(status==='pending') sl=`<div class="stamp-status-text pending">审核中</div>`;
+    else if(isLocked) sl=`<div class="stamp-status-text locked-s">${mod?.UnlockMonth||''}月解锁</div>`;
+    else sl=`<div class="stamp-status-text pending">进行中</div>`;
+    return`<div class="stamp-card ${!isLocked?'unlocked':''} ${isLocked?'locked':''}" ${!isLocked?`onclick="showDetail('${md.id}')"`:''}>${circ}<div class="stamp-name">${md.name}<br><span style="font-weight:400;color:var(--t2)">${md.sub}</span></div>${sl}</div>`;
+  }).join('');
+}
+
+async function showDetail(moduleId){
+  const u=S.currentUser; const md=MODULES_DEF.find(m=>m.id===moduleId);
+  const stamp=getModuleStamp(u.UserID,moduleId);
+  const approverRole=getApproverRole(moduleId);
+  const approverName=approverRole==='HR'?'刘婧（HR）':(u.RAD||'区域总监');
+  document.getElementById('detail-title').textContent=md.name+' · '+md.sub;
+  document.getElementById('detail-sub').textContent=stamp==='done'?'已获章':stamp==='pending'?'审核中':'进行中';
+  const moduleTasks=S.tasks.filter(t=>t.ModuleID===moduleId&&(t.ForProfile==='ALL'||t.ForProfile===u.Profile)).sort((a,b)=>(a.Order||0)-(b.Order||0));
+  const mySubs=S.submissions.filter(s=>s.UserID===u.UserID&&s.ModuleID===moduleId);
+  let html='<div style="padding:14px 18px 6px">';
+  if(stamp==='done'){const as=mySubs.find(s=>s.Status==='approved');html+=`<div class="banner green"><i class="ti ti-rosette"></i><span>${approverName}已批准盖章 · ${formatDate(as?.ApprovedAt)||''}</span></div>`;}
+  else if(stamp==='pending') html+=`<div class="banner red"><i class="ti ti-clock"></i><span>作业已提交，等待${approverName}审批盖章</span></div>`;
+  else html+=`<div class="banner navy"><i class="ti ti-pencil"></i><span>请完成以下巡店记录，提交后由${approverName}审批</span></div>`;
+  html+='</div><div class="section-label">作业记录</div><div class="task-wrap">';
+  moduleTasks.forEach(task=>{
+    const sub=mySubs.find(s=>s.TaskID===task.TaskID);
+    const ss=sub?.Status||'todo';
+    let badge=ss==='approved'?'<span class="badge done">已通过</span>':ss==='submitted'?'<span class="badge waiting">审核中</span>':ss==='rejected'?'<span class="badge todo">请重新提交</span>':'<span class="badge todo">待完成</span>';
+    html+=`<div class="task-card ${ss==='submitted'?'highlight':''}"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div class="task-title" style="margin-bottom:2px">${task.Title}</div>${badge}</div><div class="task-desc">${task.Description||''}</div>`;
+    if(sub?.Content) html+=`<div style="background:var(--bg2);border-radius:var(--r1);padding:10px 12px;margin-top:10px;font-size:12px;color:var(--t1);line-height:1.6">${sub.Content.replace(/\n/g,'<br>')}</div>`;
+    if(sub?.SubmittedAt) html+=`<div class="task-meta"><span class="task-date">提交于 ${formatDate(sub.SubmittedAt)}</span></div>`;
+    if(ss==='todo'||ss==='rejected'){
+      html+=`<div class="submit-form"><label>门店名称</label><input type="text" id="fs-${task.TaskID}" placeholder="请输入巡店门店名称"><label>巡店内容 / 关键发现</label><textarea id="fc-${task.TaskID}" placeholder="请填写本次巡店的主要内容、数据分析或关键发现..."></textarea><label>行动计划</label><textarea id="fa-${task.TaskID}" placeholder="基于本次巡店，下一步的行动计划是什么？"></textarea><button onclick="submitTask('${task.TaskID}','${moduleId}','${u.UserID}')" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:9px 16px;font-size:12px;font-weight:500;cursor:pointer;width:100%">提交巡店记录</button></div>`;
+    }
+    html+='</div>';
+  });
+  html+='</div><div style="height:8px"></div>';
+  document.getElementById('detail-content').innerHTML=html;
+  go('detail');
+}
+
+async function submitTask(taskId,moduleId,userId){
+  const store=document.getElementById('fs-'+taskId)?.value?.trim();
+  const content=document.getElementById('fc-'+taskId)?.value?.trim();
+  const action=document.getElementById('fa-'+taskId)?.value?.trim();
+  if(!content){alert('请填写巡店内容后再提交');return;}
+  const full=[store?`【门店】${store}`:'',content?`【巡店内容】${content}`:'',action?`【行动计划】${action}`:''].filter(Boolean).join('\n');
+  try{
+    const existing=S.submissions.find(s=>s.UserID===userId&&s.TaskID===taskId&&s.Status==='rejected');
+    if(existing){await atUpdate('submissions',existing._id,{Status:'submitted',Content:full,SubmittedAt:new Date().toISOString()});existing.Status='submitted';existing.Content=full;}
+    else{const rec=await atCreate('submissions',{SubmissionID:userId+'_'+taskId+'_'+Date.now(),UserID:userId,TaskID:taskId,ModuleID:moduleId,Status:'submitted',Content:full,SubmittedAt:new Date().toISOString()});S.submissions.push({_id:rec.id,...rec.fields});}
+    document.getElementById('modal-submit-sub').textContent='巡店记录已提交，等待审批后获得印章';
+    showModal('modal-submit-ok'); renderAll();
+  }catch(e){alert('提交失败：'+e.message);}
+}
+
+/* ── GROUP ── */
+function renderGroup(){
+  const amUsers=S.allUsers.filter(u=>u.Role==='AM');
+  const pcts=ZONES.map(z=>{const zu=amUsers.filter(u=>u.Zone===z.key);if(!zu.length)return 0;return Math.round(zu.reduce((s,u)=>s+getStampCount(u.UserID),0)/zu.length/4*100);});
+  const maxPct=Math.max(...pcts,0);
+  let html='';
+  ZONES.forEach((z,i)=>{
+    const pct=pcts[i]; const zu=amUsers.filter(u=>u.Zone===z.key);
+    const full=zu.filter(u=>getStampCount(u.UserID)===4).length;
+    const avg=zu.length?(zu.reduce((s,u)=>s+getStampCount(u.UserID),0)/zu.length).toFixed(1):0;
+    const isL=pct===maxPct&&maxPct>0;
+    html+=`<div class="group-card ${isL?'leader':''}"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:14px;font-weight:500;color:var(--t1)">${z.name}</div><div style="font-size:11px;color:var(--t2);margin-top:2px">${z.rad} · ${zu.length} 位 AM</div></div><div style="text-align:right"><div style="font-size:22px;font-weight:500;color:${isL?'var(--red)':'var(--t1)'}">${pct}%</div><div style="font-size:10px;color:var(--t3)">平均 ${avg} / 4 章</div></div></div><div class="group-bar-track"><div class="group-bar-fill" style="width:${pct}%"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t2)"><span>${full} 人集满全部印章</span>${isL?'<span style="color:var(--red);font-weight:500">领先</span>':''}</div></div>`;
+  });
+  const total=amUsers.length; const ready=amUsers.filter(u=>getStampCount(u.UserID)===4).length;
+  html+=`<div style="background:var(--bg2);border-radius:var(--r2);padding:14px 16px;text-align:center"><div style="font-size:13px;font-weight:500;color:var(--t1);margin-bottom:4px">毕业典礼</div><div style="font-size:12px;color:var(--t2);line-height:1.55">预计 2026年 3月举办<br>全员 ${total} 人 · ${ready} 人已可参加</div><div style="display:flex;justify-content:center;gap:8px;margin:10px 0 6px">${[0,1,2,3].map(i=>`<div style="width:10px;height:10px;border-radius:50%;background:${i<ready?'var(--red)':'var(--bg3)'}"></div>`).join('')}</div><div style="font-size:11px;color:var(--t3)">集满 4 枚章即可参加</div></div>`;
+  const gw=document.getElementById('group-wrap'); if(gw) gw.innerHTML=html;
+  const agw=document.getElementById('admin-group-wrap'); if(agw) agw.innerHTML=html;
+}
+
+/* ══════════════════════════════════════
+   ADMIN VIEW
+══════════════════════════════════════ */
+function switchAdminTab(tab){
+  S.adminTab=tab;
+  document.getElementById('tab-overview').className='tab-btn'+(tab==='overview'?' active':'');
+  document.getElementById('tab-approve').className='tab-btn'+(tab==='approve'?' active':'');
+  document.querySelectorAll('.nav-item-admin').forEach((el,i)=>{el.classList.toggle('active',i===(tab==='overview'?0:1));});
+  if(tab==='overview') renderAdminOverview();
+  else renderAdminApprove();
+  go('admin-overview');
+}
+
+function getAdminTargetUsers(){
+  const amUsers=S.allUsers.filter(u=>u.Role==='AM');
+  if(S.isHR) return amUsers;
+  if(S.isRad) return amUsers.filter(u=>u.Zone===S.currentRad.Zone);
+  return amUsers;
+}
+
+function renderAdminOverview(){
+  const users=getAdminTargetUsers();
+  const total=users.length;
+  const totalStamps=users.reduce((s,u)=>s+getStampCount(u.UserID),0);
+  const totalPending=S.submissions.filter(s=>s.Status==='submitted'&&users.some(u=>u.UserID===s.UserID)).length;
+  const graduated=users.filter(u=>getStampCount(u.UserID)===4).length;
+
+  // Summary cards
+  let html=`<div class="admin-summary-grid">
+    <div class="summary-card"><div class="summary-num">${total}</div><div class="summary-label">参与 AM 总数</div></div>
+    <div class="summary-card"><div class="summary-num red">${totalPending}</div><div class="summary-label">待审批记录</div></div>
+    <div class="summary-card"><div class="summary-num">${totalStamps}</div><div class="summary-label">已获印章总数</div></div>
+    <div class="summary-card"><div class="summary-num">${graduated}</div><div class="summary-label">可参加毕业典礼</div></div>
+  </div>`;
+
+  // Group by zone
+  const zones=S.isHR?ZONES:ZONES.filter(z=>z.key===S.currentRad?.Zone);
+  zones.forEach(z=>{
+    const zu=users.filter(u=>u.Zone===z.key);
+    if(!zu.length) return;
+    html+=`<div class="section-label">${z.name} · ${z.rad}</div><div style="padding:0 18px 6px">`;
+    zu.forEach(u=>{
+      const count=getStampCount(u.UserID);
+      const pct=Math.round(count/4*100);
+      const pending=getPendingCount(u.UserID);
+      const stamps=MODULES_DEF.map(m=>getModuleStamp(u.UserID,m.id));
+      html+=`<div class="am-progress-card" onclick="showAdminAMDetail('${u.UserID}')">
+        <div class="am-card-top">
+          <div>
+            <div class="am-name">${u.Name}</div>
+            <div class="am-group">Profile ${u.Profile} · ${count}/4 章</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${pending>0?`<span class="am-pending-badge">${pending} 待审</span>`:''}
+            <div class="am-pct">${pct}%</div>
+          </div>
+        </div>
+        <div class="am-mini-track"><div class="am-mini-fill ${count===4?'complete':''}" style="width:${pct}%"></div></div>
+        <div class="am-stamps-row">
+          ${stamps.map(s=>`<div class="am-stamp-dot ${s==='done'?'done':s==='pending'?'pending':'todo'}"></div>`).join('')}
+        </div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+
+  document.getElementById('admin-overview-content').innerHTML=html;
+  renderGroup();
+}
+
+function showAdminAMDetail(userId){
+  const u=S.allUsers.find(x=>x.UserID===userId);
+  const count=getStampCount(userId); const pct=Math.round(count/4*100);
+  S.viewingAMId=userId;
+  document.getElementById('admin-am-detail-name').textContent=u.Name;
+  document.getElementById('admin-am-detail-sub').textContent=`${u.Group} · Profile ${u.Profile} · ${count}/4 章`;
+
+  let html=`<div style="padding:14px 18px 6px">`;
+  // Progress bar
+  html+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:13px;color:var(--t1)">整体进度</span><span style="font-size:18px;font-weight:500;color:var(--navy)">${pct}%</span></div>`;
+  html+=`<div class="progress-track" style="margin-bottom:14px"><div class="progress-fill" style="width:${pct}%;background:var(--navy)"></div></div>`;
+
+  // Module status list
+  html+=`<div style="background:var(--bg);border:0.5px solid var(--b1);border-radius:var(--r2);overflow:hidden;margin-bottom:12px">`;
+  MODULES_DEF.forEach((md,i)=>{
+    const stamp=getModuleStamp(userId,md.id);
+    const mySubs=S.submissions.filter(s=>s.UserID===userId&&s.ModuleID===md.id);
+    const pending=mySubs.filter(s=>s.Status==='submitted').length;
+    let iconClass='todo'; let iconEl='';
+    if(stamp==='done'){iconClass='done';iconEl=`<i class="ti ti-check" style="color:#fff;font-size:14px"></i>`;}
+    else if(stamp==='pending'){iconClass='pending';iconEl=`<i class="ti ti-clock" style="color:var(--red);font-size:14px"></i>`;}
+    else{iconEl=`<i class="ti ${md.icon}" style="color:var(--t3);font-size:14px"></i>`;}
+    html+=`<div class="am-detail-module-row">
+      <div class="am-detail-icon ${iconClass}">${iconEl}</div>
+      <div style="flex:1"><div class="am-detail-mod-name">${md.name}</div><div class="am-detail-mod-sub">${md.sub}</div></div>
+      <div style="text-align:right">
+        ${stamp==='done'?'<span class="badge done">已获章</span>':stamp==='pending'?`<span class="badge waiting">${pending}项审核中</span>`:'<span class="badge todo">未完成</span>'}
+      </div>
+    </div>`;
+  });
+  html+=`</div>`;
+
+  // Submission history
+  const allSubs=S.submissions.filter(s=>s.UserID===userId).sort((a,b)=>new Date(b.SubmittedAt)-new Date(a.SubmittedAt));
+  if(allSubs.length){
+    html+=`<div class="section-label" style="padding:0 0 8px">提交记录</div>`;
+    allSubs.forEach(sub=>{
+      const task=S.tasks.find(t=>t.TaskID===sub.TaskID);
+      const mod=MODULES_DEF.find(m=>m.id===sub.ModuleID);
+      let badge=sub.Status==='approved'?'<span class="badge done">已通过</span>':sub.Status==='submitted'?'<span class="badge waiting">审核中</span>':'<span class="badge todo">已退回</span>';
+      html+=`<div class="task-card ${sub.Status==='submitted'?'highlight':''}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
+          <div><div class="task-title" style="margin-bottom:1px">${task?.Title||sub.TaskID}</div><div style="font-size:11px;color:var(--t2)">${mod?.name||sub.ModuleID} · ${formatDate(sub.SubmittedAt)}</div></div>${badge}
+        </div>
+        ${sub.Content?`<div style="background:var(--bg2);border-radius:var(--r1);padding:10px;font-size:12px;color:var(--t1);line-height:1.6;margin-top:8px;white-space:pre-wrap">${sub.Content}</div>`:''}
+        ${sub.Status==='submitted'?`<div class="approve-row"><button class="approve-btn confirm" onclick="approveSub('${sub._id}','${userId}','${sub.ModuleID}')">批准盖章</button><button class="approve-btn reject" onclick="rejectSub('${sub._id}','${userId}','${sub.ModuleID}')">退回修改</button></div>`:''}
+      </div>`;
+    });
+  }
+  html+=`</div>`;
+  document.getElementById('admin-am-detail-content').innerHTML=html;
+  go('admin-am-detail');
+}
+
+function renderAdminApprove(){
+  const users=getAdminTargetUsers();
+  const myModules=S.modules.filter(m=>S.isHR?m.ApproverRole==='HR':m.ApproverRole==='RAD');
+  const pendingItems=[];
+  users.forEach(u=>{
+    myModules.forEach(mod=>{
+      const subs=S.submissions.filter(s=>s.UserID===u.UserID&&s.ModuleID===mod.ModuleID&&s.Status==='submitted');
+      subs.forEach(sub=>{const task=S.tasks.find(t=>t.TaskID===sub.TaskID);pendingItems.push({sub,user:u,mod,task});});
+    });
+  });
+
+  let html='';
+  if(!pendingItems.length){
+    html=`<div class="error-screen" style="min-height:300px"><i class="ti ti-circle-check" style="color:var(--green-dark)"></i><h3>全部处理完毕</h3><p>暂无待审批记录</p></div>`;
+  } else {
+    html+=`<div style="padding:14px 18px 6px"><div class="banner amber"><i class="ti ti-bell"></i><span>共 <strong>${pendingItems.length} 项</strong>待审批</span></div></div>`;
+    const byUser={};
+    pendingItems.forEach(item=>{if(!byUser[item.user.UserID])byUser[item.user.UserID]=[];byUser[item.user.UserID].push(item);});
+    Object.entries(byUser).forEach(([uid,items])=>{
+      const u=items[0].user;
+      html+=`<div class="section-label">${u.Name} · ${u.Group}</div><div class="task-wrap">`;
+      items.forEach(({sub,mod,task})=>{
+        html+=`<div class="task-card highlight">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">
+            <div><div class="task-title" style="margin-bottom:2px">${task?.Title||sub.TaskID}</div><div style="font-size:11px;color:var(--t2)">${mod.Name} · 提交于 ${formatDate(sub.SubmittedAt)}</div></div>
+            <span class="badge waiting">待批准</span>
+          </div>
+          ${sub.Content?`<div style="background:var(--bg2);border-radius:var(--r1);padding:10px 12px;font-size:12px;color:var(--t1);line-height:1.6;white-space:pre-wrap">${sub.Content}</div>`:''}
+          <div class="approve-row">
+            <button class="approve-btn confirm" onclick="approveSub('${sub._id}','${uid}','${mod.ModuleID}')">批准盖章</button>
+            <button class="approve-btn reject" onclick="rejectSub('${sub._id}','${uid}','${mod.ModuleID}')">退回修改</button>
+          </div>
+        </div>`;
+      });
+      html+='</div>';
+    });
+  }
+  document.getElementById('admin-overview-content').innerHTML=html;
+}
+
+async function approveSub(subId,userId,moduleId){
+  try{
+    await atUpdate('submissions',subId,{Status:'approved',ApprovedAt:new Date().toISOString(),ApproverID:S.currentRad?.UserID||'HR',StampGranted:true});
+    const sub=S.submissions.find(s=>s._id===subId);
+    if(sub){sub.Status='approved';sub.ApprovedAt=new Date().toISOString();sub.StampGranted=true;}
+    const allDone=S.submissions.filter(s=>s.UserID===userId&&s.ModuleID===moduleId).every(s=>s.Status==='approved');
+    const uname=S.allUsers.find(u=>u.UserID===userId)?.Name||userId;
+    const mname=MODULES_DEF.find(m=>m.id===moduleId)?.name||moduleId;
+    document.getElementById('modal-approved-sub').textContent=`${uname} 的 ${mname} 记录已通过${allDone?'，印章已自动盖入护照':''}`;
+    showModal('modal-approved');
+    renderAdminOverview();
+    if(S.currentUser?.UserID===userId) renderAll();
+  }catch(e){alert('审批失败：'+e.message);}
+}
+
+async function rejectSub(subId,userId,moduleId){
+  try{
+    await atUpdate('submissions',subId,{Status:'rejected'});
+    const sub=S.submissions.find(s=>s._id===subId);
+    if(sub) sub.Status='rejected';
+    const uname=S.allUsers.find(u=>u.UserID===userId)?.Name||userId;
+    document.getElementById('modal-rejected-sub').textContent=`已退回 ${uname} 的记录，请其修改后重新提交`;
+    showModal('modal-rejected');
+    renderAdminOverview();
+  }catch(e){alert('退回失败：'+e.message);}
+}
+</script>
+</body>
+</html>
