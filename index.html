@@ -561,7 +561,7 @@ async function submitTask(taskId,moduleId,userId){
   try{
     const existing=S.submissions.find(s=>s.UserID===userId&&s.TaskID===taskId&&s.Status==='rejected');
     if(existing){await atUpdate('submissions',existing._id,{Status:'submitted',Content:full});existing.Status='submitted';existing.Content=full;}
-    else{const rec=await atCreate('submissions',{SubmissionID:userId+'_'+taskId+'_'+Date.now(),UserID:userId,TaskID:taskId,ModuleID:moduleId,Status:'submitted',Content:full});S.submissions.push({_id:rec.id,...rec.fields});}
+    else{const rec=await atCreate("submissions",{UserID:userId,TaskID:taskId,ModuleID:moduleId,Status:"submitted",Content:full});S.submissions.push({_id:rec.id,...rec.fields});}
     document.getElementById('modal-submit-sub').textContent='巡店记录已提交，等待审批后获得印章';
     showModal('modal-submit-ok'); renderAll();
   }catch(e){alert('提交失败：'+e.message);}
