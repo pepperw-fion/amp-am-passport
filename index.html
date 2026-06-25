@@ -560,8 +560,8 @@ async function submitTask(taskId,moduleId,userId){
   const full=[store?`【门店】${store}`:'',content?`【巡店内容】${content}`:'',action?`【行动计划】${action}`:''].filter(Boolean).join('\n');
   try{
     const existing=S.submissions.find(s=>s.UserID===userId&&s.TaskID===taskId&&s.Status==='rejected');
-    if(existing){await atUpdate('submissions',existing._id,{Status:'submitted',Content:full,SubmittedAt:new Date().toISOString()});existing.Status='submitted';existing.Content=full;}
-    else{const rec=await atCreate('submissions',{SubmissionID:userId+'_'+taskId+'_'+Date.now(),UserID:userId,TaskID:taskId,ModuleID:moduleId,Status:'submitted',Content:full,SubmittedAt:new Date().toISOString()});S.submissions.push({_id:rec.id,...rec.fields});}
+    if(existing){await atUpdate('submissions',existing._id,{Status:'submitted',Content:full});existing.Status='submitted';existing.Content=full;}
+    else{const rec=await atCreate('submissions',{SubmissionID:userId+'_'+taskId+'_'+Date.now(),UserID:userId,TaskID:taskId,ModuleID:moduleId,Status:'submitted',Content:full});S.submissions.push({_id:rec.id,...rec.fields});}
     document.getElementById('modal-submit-sub').textContent='巡店记录已提交，等待审批后获得印章';
     showModal('modal-submit-ok'); renderAll();
   }catch(e){alert('提交失败：'+e.message);}
@@ -752,9 +752,9 @@ function renderAdminApprove(){
 
 async function approveSub(subId,userId,moduleId){
   try{
-    await atUpdate('submissions',subId,{Status:'approved',ApprovedAt:new Date().toISOString(),ApproverID:S.currentRad?.UserID||'HR',StampGranted:true});
+    await atUpdate('submissions',subId,{Status:'approved',ApproverID:S.currentRad?.UserID||'HR'});
     const sub=S.submissions.find(s=>s._id===subId);
-    if(sub){sub.Status='approved';sub.ApprovedAt=new Date().toISOString();sub.StampGranted=true;}
+    if(sub){sub.Status='approved';}
     const allDone=S.submissions.filter(s=>s.UserID===userId&&s.ModuleID===moduleId).every(s=>s.Status==='approved');
     const uname=S.allUsers.find(u=>u.UserID===userId)?.Name||userId;
     const mname=MODULES_DEF.find(m=>m.id===moduleId)?.name||moduleId;
