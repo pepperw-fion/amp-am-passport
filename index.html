@@ -16,42 +16,50 @@
 --gr:#2D6A2E;--gr-l:#EAF4EA;
 --am:#8A5A08;--am-l:#FDF3E2;
 --nv:#1E2A3D;--nv-l:#EEF1F6;
---r:10px;--rl:16px;--side:232px;
+--r:10px;--rl:16px;--side:236px;
+--ez:cubic-bezier(.22,1,.36,1);
 }
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg2);color:var(--t1);-webkit-font-smoothing:antialiased;line-height:1.6;font-size:14px}
-button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
 .hide{display:none!important}
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.4) rotate(-24deg);opacity:0}55%{transform:scale(1.14) rotate(6deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes ring{0%{transform:scale(.6) rotate(-12deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(-12deg);opacity:1}}
+@keyframes fall{to{transform:translateY(105vh) rotate(var(--rot));opacity:0}}
+@keyframes sp{to{transform:rotate(360deg)}}
+.anim{animation:fu .42s var(--ez) both}
 
 #login{min-height:100dvh;display:flex;background:var(--bg)}
 .lg-art{flex:1;background:var(--red);display:flex;flex-direction:column;justify-content:space-between;padding:48px;position:relative;overflow:hidden}
 .lg-art::after{content:"";position:absolute;right:-120px;bottom:-140px;width:420px;height:420px;border:1px solid rgba(255,255,255,.18);border-radius:50%}
 .lg-art::before{content:"";position:absolute;right:-40px;bottom:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.14);border-radius:50%}
-.lg-brand{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.75);font-weight:500}
+.lg-brand{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.75);font-weight:500;position:relative;z-index:1}
 .lg-big{font-size:40px;color:#fff;font-weight:500;line-height:1.2;letter-spacing:-.5px}
 .lg-desc{font-size:14px;color:rgba(255,255,255,.72);margin-top:14px;line-height:1.8;max-width:340px}
-.lg-foot{font-size:12px;color:rgba(255,255,255,.5)}
+.lg-foot{font-size:12px;color:rgba(255,255,255,.5);position:relative;z-index:1}
 .lg-form{width:440px;display:flex;align-items:center;justify-content:center;padding:40px}
 .lg-in{width:100%;max-width:320px}
 .lg-t{font-size:24px;font-weight:500;margin-bottom:4px}
 .lg-s{font-size:13px;color:var(--t2);margin-bottom:28px}
+@media(max-width:860px){.lg-art{display:none}.lg-form{width:100%}}
+
 .fld{margin-bottom:14px}
 .fld label{display:block;font-size:12px;color:var(--t2);margin-bottom:6px;font-weight:500}
-.fld input{width:100%;padding:11px 13px;border:1px solid var(--b2);border-radius:var(--r);font-size:15px;background:var(--bg);transition:.15s}
-.fld input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-i)}
-.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:var(--r);font-size:14px;font-weight:500;background:var(--red);color:#fff;transition:.15s}
-.btn:hover{background:var(--red-d)}
-.btn:disabled{opacity:.45;cursor:default}
+.fld input,.fld select{width:100%;padding:11px 13px;border:1px solid var(--b2);border-radius:var(--r);font-size:15px;background:var(--bg);transition:.15s}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-i)}
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:var(--r);font-size:14px;font-weight:500;background:var(--red);color:#fff;transition:.16s var(--ez)}
+.btn:hover{background:var(--red-d);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:.45;cursor:default;transform:none}
 .btn-sm{width:auto;padding:7px 13px;font-size:13px;border-radius:8px}
 .btn-gh{background:var(--bg);color:var(--t1);border:1px solid var(--b2)}
 .btn-gh:hover{background:var(--bg2)}
-.btn-nv{background:var(--nv)}
-.btn-nv:hover{background:#141d2b}
+.btn-nv{background:var(--nv)}.btn-nv:hover{background:#141d2b}
 .err{background:var(--red-l);color:var(--red-d);padding:10px 12px;border-radius:8px;font-size:13px;margin-bottom:14px}
 .lg-hint{font-size:12px;color:var(--t3);margin-top:20px;text-align:center}
-@media(max-width:860px){.lg-art{display:none}.lg-form{width:100%}}
 
 #app{min-height:100dvh}
 .side{position:fixed;left:0;top:0;bottom:0;width:var(--side);background:var(--bg);border-right:1px solid var(--b1);display:flex;flex-direction:column;z-index:40}
@@ -59,14 +67,14 @@ button{cursor:pointer;border:none;background:none}
 .side-logo{font-size:10px;letter-spacing:2px;color:var(--red);font-weight:600}
 .side-app{font-size:15px;font-weight:500;margin-top:3px}
 .side-nav{flex:1;padding:12px 10px;overflow-y:auto}
-.nv{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:8px;font-size:13.5px;color:var(--t2);width:100%;transition:.12s;margin-bottom:2px}
+.nv{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:8px;font-size:13.5px;color:var(--t2);width:100%;transition:.14s var(--ez);margin-bottom:2px}
 .nv:hover{background:var(--bg2);color:var(--t1)}
 .nv.on{background:var(--red-l);color:var(--red-d);font-weight:500}
 .nv i{font-size:18px}
 .nv-c{margin-left:auto;font-size:11px;background:var(--red);color:#fff;border-radius:9px;padding:1px 6px;min-width:18px;text-align:center}
 .side-bot{padding:12px 10px;border-top:1px solid var(--b1)}
 .usr{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px}
-.usr-av{width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.usr-av{flex-shrink:0;display:flex}
 .usr-i{flex:1;min-width:0}
 .usr-n{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .usr-r{font-size:11px;color:var(--t3)}
@@ -74,14 +82,14 @@ button{cursor:pointer;border:none;background:none}
 .usr-x:hover{color:var(--red)}
 
 .wrap{margin-left:var(--side);min-height:100dvh}
-.hd{background:var(--bg);border-bottom:1px solid var(--b1);padding:16px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:30}
+.hd{background:rgba(255,255,255,.86);backdrop-filter:saturate(1.6) blur(10px);border-bottom:1px solid var(--b1);padding:16px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:30}
 .hd-t{font-size:17px;font-weight:500}
 .hd-s{font-size:12.5px;color:var(--t2);margin-top:1px}
 .hd-r{margin-left:auto;display:flex;align-items:center;gap:8px}
-.icb{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:18px;position:relative;border:1px solid var(--b1)}
+.icb{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:18px;position:relative;border:1px solid var(--b1);transition:.15s}
 .icb:hover{background:var(--bg2);color:var(--t1)}
 .icb .dt{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid var(--bg)}
-.body{padding:24px 28px 60px;max-width:960px}
+.body{padding:24px 28px 60px;max-width:980px}
 .mnav{display:none}
 @media(max-width:860px){
 .side{display:none}
@@ -89,10 +97,11 @@ button{cursor:pointer;border:none;background:none}
 .hd{padding:14px 16px}
 .hd-t{font-size:16px}
 .body{padding:16px 16px 40px}
-.mnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--b1);z-index:40;padding-bottom:env(safe-area-inset-bottom)}
-.mnav button{flex:1;padding:9px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--t3)}
+.mnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-top:1px solid var(--b1);z-index:40;padding-bottom:env(safe-area-inset-bottom)}
+.mnav button{flex:1;padding:9px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--t3);position:relative;transition:.15s}
 .mnav button.on{color:var(--red)}
-.mnav i{font-size:21px}
+.mnav button.on i{transform:translateY(-1px)}
+.mnav i{font-size:21px;transition:.2s var(--ez)}
 }
 
 .card{background:var(--bg);border:1px solid var(--b1);border-radius:var(--rl);padding:20px;margin-bottom:14px}
@@ -101,46 +110,63 @@ button{cursor:pointer;border:none;background:none}
 .lbl{font-size:11px;color:var(--t3);letter-spacing:1.3px;font-weight:600;margin:24px 0 10px}
 .lbl:first-child{margin-top:0}
 
-.hero{background:var(--red);border-radius:var(--rl);padding:26px 28px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:230px;height:230px;border:1px solid rgba(255,255,255,.16);border-radius:50%}
-.hero::before{content:"";position:absolute;right:-20px;top:-20px;width:140px;height:140px;border:1px solid rgba(255,255,255,.12);border-radius:50%}
-.hero-e{font-size:10px;letter-spacing:2.5px;color:rgba(255,255,255,.6);margin-bottom:9px}
-.hero-n{font-size:27px;font-weight:500;letter-spacing:-.3px}
-.hero-m{font-size:13px;color:rgba(255,255,255,.75);margin-top:2px}
-.hero-tags{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap;position:relative;z-index:1}
-.htag{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 11px;font-size:11.5px;display:inline-flex;align-items:center;gap:5px}
-.hero-p{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.18);position:relative;z-index:1}
-.hero-pr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:9px}
-.hero-pl{font-size:12.5px;color:rgba(255,255,255,.85)}
-.hero-pn{font-size:30px;font-weight:500;line-height:1}
+.cover{background:linear-gradient(145deg,#D2153A,#A50C25);border-radius:var(--rl);padding:24px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden}
+.cover::after{content:"";position:absolute;right:-80px;top:-60px;width:250px;height:250px;border:1px solid rgba(255,255,255,.15);border-radius:50%}
+.cover::before{content:"";position:absolute;right:-30px;top:-10px;width:150px;height:150px;border:1px solid rgba(255,255,255,.11);border-radius:50%}
+.cover-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;position:relative;z-index:1}
+.cover-brand{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.7);font-weight:500}
+.cover-code{font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.32);border-radius:20px;padding:2px 10px}
+.cover-e{font-size:9.5px;letter-spacing:2.5px;color:rgba(255,255,255,.55);margin-bottom:7px;position:relative;z-index:1}
+.cover-id{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.cover-idt{min-width:0}
+.cover-n{font-size:28px;font-weight:500;letter-spacing:-.3px;position:relative;z-index:1}
+.cover-m{font-size:13px;color:rgba(255,255,255,.75);margin-top:2px;position:relative;z-index:1}
+.ava-w{border:2px solid rgba(255,255,255,.45)}
+.cover-seal{position:absolute;right:26px;bottom:100px;width:64px;height:64px;border-radius:50%;border:2px dashed rgba(255,255,255,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-11deg);z-index:1;animation:ring .7s var(--ez) .2s both}
+.cover-seal i{font-size:14px;opacity:.85}
+.cover-seal b{font-size:19px;font-weight:500;line-height:1.1}
+.cover-p{margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);position:relative;z-index:1}
+.cover-pr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
+.cover-pl{font-size:12.5px;color:rgba(255,255,255,.85)}
+.cover-pn{font-size:28px;font-weight:500;line-height:1}
+.cover-dots{display:flex;gap:3px;margin-top:9px}
+.cover-dots>i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.28);display:block;transition:background .3s}
+.cover-dots>i.e{background:#fff}
+.cover-dots>i.p{background:rgba(255,255,255,.62)}
 .trk{height:5px;background:rgba(255,255,255,.24);border-radius:3px;overflow:hidden}
-.trk>div{height:100%;background:#fff;border-radius:3px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.trk>div{height:100%;background:#fff;border-radius:3px;width:0;transition:width 1s var(--ez)}
 
-.jr{position:relative;padding-left:52px}
-.jr::before{content:"";position:absolute;left:21px;top:14px;bottom:14px;width:2px;background:var(--b1)}
-.jr-mon{position:relative;font-size:11px;color:var(--t3);font-weight:600;letter-spacing:1px;margin:20px 0 10px}
-.jr-mon:first-child{margin-top:0}
-.jr-mon::before{content:"";position:absolute;left:-38px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--bg2);border:2px solid var(--b2)}
-.jr-mon.act::before{background:var(--red);border-color:var(--red)}
-.jn{position:relative;background:var(--bg);border:1px solid var(--b1);border-radius:14px;padding:14px 16px;margin-bottom:9px;display:flex;align-items:center;gap:13px;transition:.15s}
-.jn.can{cursor:pointer}
-.jn.can:hover{border-color:var(--red);box-shadow:0 2px 10px rgba(200,16,46,.07)}
-.jn.lk{opacity:.55}
-.jn.done{border-color:var(--red-m);background:var(--red-l)}
-.jr-line{position:absolute;left:-31px;top:50%;width:22px;height:1.5px;background:var(--b1)}
+.ib{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:6px}
+.ib-c{background:var(--bg);border:1px solid var(--b1);border-radius:12px;padding:13px 10px;text-align:center}
+.ib-n{font-size:21px;font-weight:500;color:var(--nv);line-height:1.2}
+.ib-l{font-size:11px;color:var(--t2);margin-top:2px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.sc{background:var(--bg);border:1px solid var(--b1);border-radius:14px;padding:16px 12px;text-align:center;transition:.18s var(--ez)}
+.sc.can{cursor:pointer}
+.sc.can:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:0 4px 16px rgba(200,16,46,.1)}
+.sc.lk{opacity:.5}
+.sc.done{border-color:var(--red-m);background:var(--red-l)}
+.sc-n{font-size:12.5px;font-weight:500;line-height:1.35}
+.sc-s{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.4}
+.sc-t{font-size:10.5px;font-weight:500;margin-top:6px}
+
 .seal{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
-.seal.done{background:var(--red);color:#fff}
+.seal.done{background:var(--red);color:#fff;animation:pop .5s var(--ez) both}
 .seal.done::after{content:"";position:absolute;inset:-6px;border:1.5px dashed var(--red-m);border-radius:50%;transform:rotate(-12deg)}
 .seal.wait{background:var(--am-l);color:var(--am);border:1.5px dashed var(--am)}
 .seal.open{background:var(--bg2);color:var(--t2);border:1.5px solid var(--b2)}
 .seal.lk{background:var(--bg3);color:var(--t3);border:1.5px dashed var(--b2)}
-.seal.cnt{background:var(--nv);color:#fff;flex-direction:column}
-.seal.cnt b{font-size:17px;font-weight:500;line-height:1.1}
-.seal.cnt span{font-size:8px;opacity:.7;line-height:1}
-.jn-m{flex:1;min-width:0}
-.jn-t{font-size:14px;font-weight:500;line-height:1.4}
-.jn-s{font-size:12px;color:var(--t2);margin-top:2px}
-.jn-r{flex-shrink:0;display:flex;align-items:center;gap:8px}
+
+.rk{background:var(--bg);border:1px solid var(--b1);border-radius:12px;padding:12px 15px;margin-bottom:8px;display:flex;align-items:center;gap:13px;transition:.15s}
+.rk.mine{border-color:var(--red);background:var(--red-l)}
+.rk-no{width:26px;height:26px;border-radius:50%;background:var(--bg3);color:var(--t2);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:500;flex-shrink:0}
+.rk-no.g1{background:var(--red);color:#fff}
+.rk-no.g2{background:var(--red-m);color:var(--red-d)}
+.rk-no.g3{background:var(--am-l);color:var(--am)}
+.rk-t{font-size:13.5px;font-weight:500}
+.rk-s{font-size:11.5px;color:var(--t2);margin-top:1px}
+.rk-p{font-size:18px;font-weight:500;color:var(--nv);flex-shrink:0}
 
 .bg{display:inline-block;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
 .bg.ok{background:var(--gr-l);color:var(--gr)}
@@ -163,15 +189,18 @@ button{cursor:pointer;border:none;background:none}
 .rw-s{font-size:11.5px;color:var(--t2);margin-top:1px}
 .rw-r{flex-shrink:0;display:flex;align-items:center;gap:8px}
 
-.pc{background:var(--bg);border:1px solid var(--b1);border-radius:12px;padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:.15s}
-.pc:hover{border-color:var(--nv);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.pc{background:var(--bg);border:1px solid var(--b1);border-radius:12px;padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:.16s var(--ez)}
+.pc:hover{border-color:var(--nv);transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.05)}
 .pc-t{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}
+.pc-l{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.pc-x{min-width:0}
+.pc-r{display:flex;align-items:center;gap:9px;flex-shrink:0}
 .pc-n{font-size:13.5px;font-weight:500}
 .pc-c{font-size:11px;color:var(--t3);font-weight:400;margin-left:4px}
 .pc-m{font-size:11.5px;color:var(--t2);margin-top:1px}
 .pc-p{font-size:17px;font-weight:500;color:var(--nv)}
 .pc-k{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-bottom:6px}
-.pc-k>div{height:100%;background:var(--nv);border-radius:2px;transition:width .5s}
+.pc-k>div{height:100%;background:var(--nv);border-radius:2px;width:0;transition:width .9s var(--ez)}
 .pc-k>div.f{background:var(--red)}
 .pc-d{display:flex;gap:3px}
 .pc-d>i{flex:1;height:4px;border-radius:2px;background:var(--bg3);display:block}
@@ -184,17 +213,19 @@ button{cursor:pointer;border:none;background:none}
 .st-n.r{color:var(--red)}
 .st-l{font-size:11.5px;color:var(--t2);margin-top:3px}
 
-.ov{position:fixed;inset:0;background:rgba(15,18,24,.5);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px}
-.mo{background:var(--bg);border-radius:18px;width:100%;max-width:490px;max-height:88dvh;overflow-y:auto}
+.ov{position:fixed;inset:0;background:rgba(15,18,24,.5);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;animation:fu .2s ease both}
+.mo{background:var(--bg);border-radius:18px;width:100%;max-width:500px;max-height:88dvh;overflow-y:auto;animation:fu .32s var(--ez) both}
 .mo-h{padding:20px 22px 0;display:flex;justify-content:space-between;gap:12px}
 .mo-t{font-size:17px;font-weight:500}
 .mo-s{font-size:12.5px;color:var(--t2);margin-top:2px}
 .mo-x{font-size:21px;color:var(--t3);line-height:1;padding:2px}
 .mo-b{padding:16px 22px 22px}
 .mo-c{text-align:center;padding:34px 26px}
-.mo-cr{width:78px;height:78px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 16px;position:relative}
-.mo-cr::after{content:"";position:absolute;inset:-9px;border:2px dashed var(--red-m);border-radius:50%;transform:rotate(-12deg)}
+.mo-cr{width:82px;height:82px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;position:relative;animation:pop .58s var(--ez) both}
+.mo-cr::after{content:"";position:absolute;inset:-9px;border:2px dashed var(--red-m);border-radius:50%;animation:ring .6s var(--ez) .12s both}
 @media(max-width:860px){.ov{align-items:flex-end;padding:0}.mo{max-width:100%;border-radius:20px 20px 0 0;max-height:92dvh}}
+
+.cf{position:fixed;top:-14px;width:8px;height:13px;z-index:300;pointer-events:none;animation:fall linear forwards}
 
 .up{border:1.5px dashed var(--b2);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;transition:.15s;background:var(--bg2);margin-top:10px}
 .up:hover{border-color:var(--red);background:var(--red-l)}
@@ -217,50 +248,47 @@ button{cursor:pointer;border:none;background:none}
 .emp-t{font-size:14px;color:var(--t2)}
 .emp-s{font-size:12.5px;margin-top:5px}
 .spn{width:26px;height:26px;border:2.5px solid var(--b1);border-top-color:var(--red);border-radius:50%;animation:sp .8s linear infinite;margin:44px auto}
-@keyframes sp{to{transform:rotate(360deg)}}
-
-.cover{background:var(--red);border-radius:var(--rl);padding:24px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden}
-.cover::after{content:"";position:absolute;right:-80px;top:-60px;width:250px;height:250px;border:1px solid rgba(255,255,255,.15);border-radius:50%}
-.cover::before{content:"";position:absolute;right:-30px;top:-10px;width:150px;height:150px;border:1px solid rgba(255,255,255,.11);border-radius:50%}
-.cover-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;position:relative;z-index:1}
-.cover-brand{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.7);font-weight:500}
-.cover-code{font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:2px 10px}
-.cover-e{font-size:9.5px;letter-spacing:2.5px;color:rgba(255,255,255,.55);margin-bottom:7px;position:relative;z-index:1}
-.cover-n{font-size:28px;font-weight:500;letter-spacing:-.3px;position:relative;z-index:1}
-.cover-m{font-size:13px;color:rgba(255,255,255,.75);margin-top:2px;position:relative;z-index:1}
-.cover-seal{position:absolute;right:24px;bottom:96px;width:62px;height:62px;border-radius:50%;border:2px dashed rgba(255,255,255,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-11deg);z-index:1}
-.cover-seal i{font-size:15px;opacity:.8}
-.cover-seal b{font-size:19px;font-weight:500;line-height:1.1}
-.cover-p{margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);position:relative;z-index:1}
-.cover-pr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
-.cover-pl{font-size:12.5px;color:rgba(255,255,255,.85)}
-.cover-pn{font-size:28px;font-weight:500;line-height:1}
-.cover-dots{display:flex;gap:3px;margin-top:9px}
-.cover-dots>i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.28);display:block}
-.cover-dots>i.e{background:#fff}
-.cover-dots>i.p{background:rgba(255,255,255,.62)}
-.ib{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:6px}
-.ib-c{background:var(--bg);border:1px solid var(--b1);border-radius:12px;padding:13px 10px;text-align:center}
-.ib-n{font-size:21px;font-weight:500;color:var(--nv);line-height:1.2}
-.ib-l{font-size:11px;color:var(--t2);margin-top:2px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
-.sc{background:var(--bg);border:1px solid var(--b1);border-radius:14px;padding:16px 12px;text-align:center;transition:.15s}
-.sc.can{cursor:pointer}
-.sc.can:hover{border-color:var(--red);transform:translateY(-1px);box-shadow:0 3px 12px rgba(200,16,46,.08)}
-.sc.lk{opacity:.5}
-.sc.done{border-color:var(--red-m);background:var(--red-l)}
-.sc-n{font-size:12.5px;font-weight:500;line-height:1.35}
-.sc-s{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.4}
-.sc-t{font-size:10.5px;font-weight:500;margin-top:6px}
-.rk{background:var(--bg);border:1px solid var(--b1);border-radius:12px;padding:13px 15px;margin-bottom:8px;display:flex;align-items:center;gap:13px}
-.rk.mine{border-color:var(--red);background:var(--red-l)}
-.rk-no{width:26px;height:26px;border-radius:50%;background:var(--bg3);color:var(--t2);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:500;flex-shrink:0}
-.rk-no.top{background:var(--red);color:#fff}
-.rk-t{font-size:13.5px;font-weight:500}
-.rk-s{font-size:11.5px;color:var(--t2);margin-top:1px}
-.rk-p{font-size:19px;font-weight:500;color:var(--nv);flex-shrink:0}
-@media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr)}.cover-seal{display:none}}
 .sub-c{background:var(--bg);border:1px solid var(--b1);border-radius:12px;padding:14px;margin-bottom:10px}
+
+.seg{display:flex;gap:6px;background:var(--bg);border:1px solid var(--b1);border-radius:11px;padding:4px;margin-bottom:14px;overflow-x:auto}
+.sg{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:8px;font-size:13px;color:var(--t2);white-space:nowrap;transition:.15s}
+.sg:hover{background:var(--bg2)}
+.sg.on{background:var(--nv);color:#fff}
+.sg i{font-size:16px}
+.chk{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border:1px solid var(--b2);border-radius:20px;font-size:12.5px;cursor:pointer;transition:.15s}
+.chk.on{border-color:var(--red);background:var(--red-l);color:var(--red-d)}
+.chk input{width:auto;margin:0}
+
+/* ===== 航海主题 ===== */
+#splash{position:fixed;inset:0;z-index:900;background:linear-gradient(170deg,#FDF6EC 0%,#F7EBDB 55%,#F2E1CC 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .6s ease,visibility .6s}
+#splash.out{opacity:0;visibility:hidden}
+#splash svg{width:min(88vw,420px);height:auto}
+.sp-t{font-size:12px;letter-spacing:4px;color:#B08A5A;margin-bottom:6px;opacity:0;animation:spIn .7s var(--ez) .15s forwards}
+.sp-n{font-size:27px;font-weight:500;color:var(--red-d);opacity:0;animation:spIn .7s var(--ez) .3s forwards}
+.sp-s{font-size:12.5px;color:#A98B66;margin-top:10px;opacity:0;animation:spIn .7s var(--ez) 2.1s forwards}
+.sp-go{margin-top:26px;display:inline-flex;align-items:center;gap:7px;background:var(--red);color:#fff;font-size:14.5px;font-weight:500;padding:12px 34px;border-radius:26px;opacity:0;animation:spIn .6s var(--ez) 2.4s forwards;box-shadow:0 6px 20px rgba(200,16,46,.26);transition:transform .16s var(--ez),background .16s}
+.sp-go:hover{background:var(--red-d);transform:translateY(-2px)}
+.sp-go i{font-size:16px}
+@keyframes spIn{to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2deg)}}
+@keyframes wv{to{transform:translateX(-60px)}}
+@keyframes chest{0%{transform:scale(.3) rotate(-18deg);opacity:0}60%{transform:scale(1.15) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes glow{0%,100%{opacity:.35}50%{opacity:.75}}
+
+.mapwrap{background:linear-gradient(165deg,#FDF8F0,#F6EADA);border:1px solid #E7D6BF;border-radius:var(--rl);padding:16px 10px 10px;margin-bottom:14px;position:relative;overflow:hidden}
+.mapwrap::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 18% 22%,rgba(176,138,90,.07) 0 2px,transparent 2px),radial-gradient(circle at 72% 64%,rgba(176,138,90,.06) 0 2px,transparent 2px);background-size:90px 90px;pointer-events:none}
+.maphd{display:flex;align-items:center;justify-content:space-between;padding:0 8px 10px;position:relative;z-index:1}
+.maphd-t{font-size:13px;font-weight:500;color:#7A5A32;letter-spacing:1px}
+.maphd-s{font-size:11.5px;color:#A98B66}
+.compass{font-size:20px;color:#C0A276;opacity:.8}
+.map svg{width:100%;height:auto;display:block;position:relative;z-index:1}
+.nd{cursor:pointer}
+.nd.lk{cursor:default}
+.boat{animation:bob 2.6s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+.wave{animation:wv 5s linear infinite}
+.srch{width:100%;padding:10px 13px;border:1px solid var(--b2);border-radius:var(--r);font-size:14px;margin-bottom:12px;background:var(--bg)}
+.srch:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-i)}
 </style>
 </head>
 <body>
@@ -268,7 +296,7 @@ button{cursor:pointer;border:none;background:none}
 <div id="login">
   <div class="lg-art">
     <div class="lg-brand">AMPLIFON · 安湃声</div>
-    <div>
+    <div style="position:relative;z-index:1">
       <div class="lg-big">学习护照</div>
       <div class="lg-desc">区域经理发展项目 2026–2027<br>完成每一站，收集属于你的印章</div>
     </div>
@@ -306,6 +334,8 @@ button{cursor:pointer;border:none;background:none}
     <header class="hd">
       <div><div class="hd-t" id="hdT">—</div><div class="hd-s" id="hdS">—</div></div>
       <div class="hd-r">
+        <button class="icb" id="btnProf" title="个人设置" aria-label="个人设置"><i class="ti ti-user-circle"></i></button>
+        <button class="icb" id="btnPwd" title="修改密码" aria-label="修改密码"><i class="ti ti-key"></i></button>
         <button class="icb" id="btnBell" aria-label="消息"><i class="ti ti-bell"></i><span class="dt hide" id="dot"></span></button>
         <button class="icb" id="btnOut2" aria-label="退出登录"><i class="ti ti-logout"></i></button>
       </div>
@@ -324,15 +354,20 @@ const SB_URL='https://wrsdowjykzftsmlllizj.supabase.co'
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2Rvd2p5a3pmdHNtbGxsaXpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1MDQ2NDgsImV4cCI6MjEwMjA4MDY0OH0.GpBICWFS3NfvXn9KW1foeLH9KKoispi_j9FEw6hxH8g'
 const sb=createClient(SB_URL,SB_KEY)
 
-const S={me:null,stamps:[],assigns:[],groups:[],prog:[],subs:[],live:[],notifs:[],people:[],tab:'',vu:null}
+const RN={learner:'学员',hrbp:'HRBP',rad:'区域总监',staff:'行政',training:'培训部门',hr:'HR',admin:'管理员'}
+const S={me:null,stamps:[],assigns:[],prog:[],subs:[],notifs:[],people:[],mats:[],tab:'',vu:'',q:'',adminTab:'acc'}
 const $=i=>document.getElementById(i)
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))
 const fmt=d=>{if(!d)return'';const x=new Date(d);return x.getMonth()+1+'月'+x.getDate()+'日'}
-const isMgr=()=>['hrbp','rad','hr','admin'].includes(S.me?.role)
-const isGl=()=>['hr','admin'].includes(S.me?.role)
-const CORE=()=>S.stamps.filter(s=>s.complete_type!=='counter')
-const CNT=()=>S.stamps.filter(s=>s.complete_type==='counter')
+const isGl=()=>['hr','admin','staff','training','gm'].includes(S.me?.role)
+const isAdm=()=>['hr','admin'].includes(S.me?.role)
+const isMgr=()=>['hrbp','rad','staff','training','hr','gm','admin'].includes(S.me?.role)
+const isGM=()=>S.me?.role==='gm'
+const TOT=()=>S.stamps.length
+const dispName=p=>p?(p.nickname||p.name):''
+const AVA_BASE=SB_URL+'/storage/v1/object/public/avatars/'
 
+/* ========== LOGIN ========== */
 $('btnLogin').onclick=doLogin
 $('inPwd').onkeydown=e=>{if(e.key==='Enter')doLogin()}
 $('inCode').onkeydown=e=>{if(e.key==='Enter')$('inPwd').focus()}
@@ -347,51 +382,48 @@ async function doLogin(){
 }
 function sErr(m){const e=$('lgErr');e.textContent=m;e.classList.remove('hide')}
 async function logout(){await sb.auth.signOut();location.reload()}
-$('btnOut').onclick=logout
-$('btnOut2').onclick=logout
+$('btnOut').onclick=logout;$('btnOut2').onclick=logout
 $('btnBell').onclick=()=>openNotifs()
+$('btnPwd').onclick=()=>openMyPwd()
+$('btnProf').onclick=()=>openProfile()
 
 sb.auth.getSession().then(({data})=>{if(data.session)boot()})
 async function boot(){
-  const {data:{user}}=await sb.auth.getUser()
-  if(!user)return
+  const {data:{user}}=await sb.auth.getUser();if(!user)return
   const {data:pf}=await sb.from('profiles').select('*').eq('id',user.id).single()
   if(!pf){sErr('账号未配置，请联系 HR');return}
   S.me=pf
   $('login').classList.add('hide');$('app').classList.remove('hide')
-  $('usrN').textContent=pf.name;$('usrR').textContent=rLbl(pf);$('avT').textContent=pf.name.slice(0,1)
+  $('usrN').textContent=pf.name;$('avT').textContent=pf.name.slice(0,1)
+  $('usrR').textContent=pf.role==='learner'?(pf.user_type==='expert'?'专家':'区域经理'):RN[pf.role]
   await loadAll();buildNav()
-}
-function rLbl(p){
-  const g=p.group_id?p.group_id+' · ':''
-  return {learner:g+(p.user_type==='expert'?'专家':'区域经理'),hrbp:g+'HRBP',rad:g+'组长',hr:'HR',admin:'管理员'}[p.role]||''
+  if(!sessionStorage.getItem('splashed')){sessionStorage.setItem('splashed','1');splash()}
 }
 async function loadAll(){
   const r=await Promise.all([
     sb.from('stamps').select('*').order('order_no'),
     sb.from('assignments').select('*').order('order_no'),
-    sb.from('groups').select('*').order('id'),
     sb.from('stamp_progress').select('*'),
     sb.from('submissions').select('*'),
-    sb.from('live_checkins').select('*'),
     sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(60),
-    sb.from('profiles').select('*')])
-  S.stamps=r[0].data||[];S.assigns=r[1].data||[];S.groups=r[2].data||[]
-  S.prog=r[3].data||[];S.subs=r[4].data||[];S.live=r[5].data||[]
-  S.notifs=r[6].data||[];S.people=r[7].data||[]
+    sb.from('profiles').select('*'),
+    sb.from('materials').select('*').order('created_at')])
+  S.stamps=r[0].data||[];S.assigns=r[1].data||[];S.prog=r[2].data||[]
+  S.subs=r[3].data||[];S.notifs=r[4].data||[];S.people=r[5].data||[];S.mats=r[6]?(r[6].data||[]):[]
   $('dot').classList.toggle('hide',S.notifs.filter(n=>!n.read_at).length===0)
 }
 
+/* ========== NAV ========== */
 const NAVS={
   pp:['ti-id-badge','我的护照','学习护照','你的个人信息与整体进度'],
   st:['ti-rosette','集章','集章进度','完成节点收集属于你的印章'],
-  rk:['ti-trophy','排行','小组排行','各组完成情况与毕业进度'],
-  ov:['ti-layout-grid','进度总览','进度总览','查看你负责学员的完成情况'],
+  rk:['ti-trophy','排行','个人排行','区域经理完成度排名'],
+  ov:['ti-layout-grid','进度总览','进度总览','你负责学员的完成情况'],
   ap:['ti-checkbox','待审批','待审批','确认签到与审批作业'],
-  ad:['ti-users','全员管理','全员管理','全部学员与各组完成率']
+  ad:['ti-settings','管理后台','管理后台','账号、密码与挂靠关系管理']
 }
 function buildNav(){
-  const ks=S.me.role==='learner'?['pp','st','rk']:isGl()?['ov','ap','ad']:['ov','ap']
+  const ks=S.me.role==='learner'?['pp','st','rk']:isGM()?['ov','rk','fl']:isAdm()?['ov','ap','rk','ad']:['ov','ap','rk']
   const n=S.me.role!=='learner'?myTasks().length:0
   $('nav').innerHTML=ks.map(k=>'<button class="nv" data-k="'+k+'"><i class="ti '+NAVS[k][0]+'"></i>'+NAVS[k][1]+(k==='ap'&&n?'<span class="nv-c">'+n+'</span>':'')+'</button>').join('')
   $('mnav').innerHTML=ks.map(k=>'<button data-k="'+k+'"><i class="ti '+NAVS[k][0]+'"></i>'+NAVS[k][1]+'</button>').join('')
@@ -399,22 +431,43 @@ function buildNav(){
   go(S.tab&&ks.includes(S.tab)?S.tab:ks[0])
 }
 function go(k){
-  S.tab=k;S.vu=null
+  S.tab=k;S.vu='';S.q=''
   document.querySelectorAll('[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===k))
   $('hdT').textContent=NAVS[k][2];$('hdS').textContent=NAVS[k][3]
   render()
 }
 function render(){
   const v=$('view')
-  if(S.vu){v.innerHTML=vPerson(S.vu);bind();return}
-  const f={pp:vPass,st:vStamps,rk:vRank,ov:vOver,ap:vApp,ad:vAdmin}[S.tab]
-  v.innerHTML=f?f():''
-  bind()
+  if(S.vu){v.innerHTML=vPerson(S.vu)}
+  else{const f={pp:vPass,st:vStamps,rk:vRank,ov:vOver,ap:vApp,ad:vAdmin,fl:adFiles}[S.tab];v.innerHTML=f?f():''}
+  bind();animate()
+}
+function animate(){
+  const v=$('view')
+  v.querySelectorAll('.card,.pc,.sc,.rk,.cover,.ib,.bn,.lbl').forEach((el,i)=>{
+    if(i>26)return
+    el.classList.add('anim');el.style.animationDelay=(i*22)+'ms'
+  })
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    v.querySelectorAll('[data-w]').forEach(el=>{el.style.width=el.dataset.w+'%'})
+    v.querySelectorAll('[data-cnt]').forEach(el=>countUp(el,+el.dataset.cnt))
+  }))
+}
+function countUp(el,to){
+  if(to<=0){el.textContent='0';return}
+  const dur=620,t0=performance.now(),suf=el.dataset.suf||''
+  const step=t=>{
+    const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3)
+    el.textContent=Math.round(to*e)+suf
+    if(p<1)requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
 }
 
-function pOf(u,s){return S.prog.find(p=>p.user_id===u&&p.stamp_id===s)}
+/* ========== STATE ========== */
+const pOf=(u,s)=>S.prog.find(p=>p.user_id===u&&p.stamp_id===s)
+const appr=p=>(p&&p.approvals)||{}
 function stState(u,st){
-  if(st.complete_type==='counter')return'counter'
   const p=pOf(u,st.id)
   if(p&&p.status==='earned')return'earned'
   if(st.unlock_date&&new Date(st.unlock_date)>new Date())return'locked'
@@ -422,98 +475,247 @@ function stState(u,st){
     const ids=S.assigns.filter(a=>a.stamp_id===st.id).map(a=>a.id)
     const m=S.subs.filter(s=>s.user_id===u&&ids.includes(s.assignment_id))
     if(m.some(s=>s.status==='submitted'))return'pending'
-    if(m.length===ids.length&&m.every(s=>s.status==='approved'))return'pending'
+    if(ids.length&&m.length===ids.length&&m.every(s=>s.status==='approved'))return'pending'
     return'open'
   }
   if(p&&(p.status==='signed_in'||p.status==='pending'))return'pending'
   return'open'
 }
-function gotN(u){return CORE().filter(s=>stState(u,s)==='earned').length}
-function lvN(u){return S.live.filter(l=>l.user_id===u&&l.confirmed).length}
+const gotN=u=>S.stamps.filter(s=>stState(u,s)==='earned').length
+const roles=st=>st.approver_roles||[]
+function apprLbl(st){return roles(st).map(r=>RN[r]).join(' + ')}
 
-function monOf(st){
-  if(!st.unlock_date)return'\u5168\u7a0b'
-  const d=new Date(st.unlock_date)
-  return d.getFullYear()+'\u5e74 '+(d.getMonth()+1)+'\u6708'
+
+/* ================= 航海动效 ================= */
+const SHORT={t1:'主题1',t2:'主题2',t3:'主题3',t4:'主题4',t5:'主题5',t6:'主题6',
+  t71:'7.1',t72:'7.2',p1:'行动①',p2:'作业',p3:'行动②',c1:'PDR',c2:'汇报'}
+const shortOf=st=>SHORT[st.id]||('第'+st.order_no+'站')
+
+function boatSVG(x,y,sc,cls){
+  return '<g class="'+(cls||'')+'" transform="translate('+x+','+y+') scale('+sc+')">'
+    +'<path d="M-13 4 L13 4 L9 11 L-9 11 Z" fill="#8B0A1E"/>'
+    +'<path d="M-11 4 L11 4 L10 6 L-10 6 Z" fill="#C8102E"/>'
+    +'<line x1="0" y1="4" x2="0" y2="-15" stroke="#7A5A32" stroke-width="1.6" stroke-linecap="round"/>'
+    +'<path d="M1 -14 L11 1 L1 1 Z" fill="#fff" stroke="#E7D6BF" stroke-width=".8"/>'
+    +'<path d="M-1 -11 L-9 1 L-1 1 Z" fill="#FBF3E6" stroke="#E7D6BF" stroke-width=".8"/>'
+    +'</g>'
+}
+function chestSVG(x,y,sc,open){
+  const g=open?'#D9A441':'#B08A5A'
+  return '<g transform="translate('+x+','+y+') scale('+sc+')">'
+    +(open?'<circle cx="0" cy="-2" r="20" fill="#D9A441" opacity=".18" style="animation:glow 2.2s ease-in-out infinite"/>':'')
+    +'<rect x="-13" y="-2" width="26" height="14" rx="2" fill="'+g+'"/>'
+    +'<path d="M-13 0 A13 9 0 0 1 13 0 Z" fill="#7A5A32"/>'
+    +'<rect x="-13" y="-1" width="26" height="3" fill="#7A5A32"/>'
+    +'<rect x="-2.5" y="1" width="5" height="7" rx="1" fill="#FDF8F0"/>'
+    +'</g>'
+}
+function routeD(pts){
+  let d='M'+pts[0].x+','+pts[0].y
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i]
+    if(Math.abs(a.y-b.y)<1){d+=' L'+b.x+','+b.y}
+    else{
+      const m=(a.y+b.y)/2, dir=a.x>180?1:-1
+      d+=' C'+(a.x+38*dir)+','+m+' '+(b.x+38*dir)+','+m+' '+b.x+','+b.y
+    }
+  }
+  return d
+}
+const COLS=2,COLX=[100,260],GAPY=104,TOPY=56
+function layout(n){
+  const pts=[]
+  for(let i=0;i<n;i++){
+    const r=Math.floor(i/COLS),c=i%COLS
+    pts.push({x:(r%2===0?COLX[c]:COLX[COLS-1-c]),y:TOPY+r*GAPY})
+  }
+  return pts
+}
+function splitName(nm){
+  const s=String(nm||'').trim()
+  const k=s.indexOf(' ')
+  if(k<0)return [s,'']
+  return [s.slice(0,k), s.slice(k+1).trim()]
 }
 
-/* ===== TAB 1 : PASSPORT COVER ===== */
+function fico(nm){
+  const e=String(nm||'').split('.').pop().toLowerCase()
+  if(['xlsx','xls','csv'].includes(e))return 'ti-file-spreadsheet'
+  if(['ppt','pptx'].includes(e))return 'ti-presentation'
+  if(['doc','docx'].includes(e))return 'ti-file-text'
+  if(e==='pdf')return 'ti-file-type-pdf'
+  if(['png','jpg','jpeg','gif','webp'].includes(e))return 'ti-photo'
+  if(['zip','rar','7z'].includes(e))return 'ti-file-zip'
+  if(['mp4','mov','avi'].includes(e))return 'ti-video'
+  return 'ti-file'
+}
+const MAT_BASE=SB_URL+'/storage/v1/object/public/materials/'
+function dlMat(path){if(path)window.open(MAT_BASE+path,'_blank')}
+function fsize(b){
+  if(!b)return ''
+  if(b<1024)return b+' B'
+  if(b<1048576)return (b/1024).toFixed(0)+' KB'
+  return (b/1048576).toFixed(1)+' MB'
+}
+function journeyMap(uid){
+  const sts=S.stamps,n=sts.length,pts=layout(n)
+  const lastRow=Math.floor((n-1)/COLS)
+  const tre={x:180,y:TOPY+(lastRow+1)*GAPY}
+  const all=pts.concat([tre])
+  const H=tre.y+64
+  const states=sts.map(st=>stState(uid,st))
+  let lastEarned=-1
+  states.forEach((t,i)=>{if(t==='earned')lastEarned=i})
+  let run=0;while(run<n&&states[run]==='earned')run++
+  const got=states.filter(t=>t==='earned').length
+  const done=got===n
+  const bp=lastEarned>=0?pts[lastEarned]:{x:pts[0].x-52,y:pts[0].y}
+
+  let g='<div class="mapwrap"><div class="maphd">'
+    +'<div><div class="maphd-t">寻宝航线</div>'
+    +'<div class="maphd-s">'+(done?'全部靠岸，宝藏已开启':'已抵达 '+got+' / '+n+' 站')+'</div></div>'
+    +'<div class="compass"><i class="ti ti-compass"></i></div></div>'
+    +'<div class="map"><svg viewBox="0 0 360 '+H+'" role="img" aria-label="寻宝航线图">'
+
+  g+='<g opacity=".45"><path class="wave" d="M-60 20 q15 -6 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#DCC7A8" stroke-width="1.4"/>'
+    +'<path class="wave" d="M-60 30 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#E7D6BF" stroke-width="1.1" style="animation-duration:7s"/></g>'
+
+  g+='<path d="'+routeD(all)+'" fill="none" stroke="#E0CBAE" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="7 7"/>'
+  if(run>0)g+='<path d="'+routeD(pts.slice(0,Math.max(2,run)))+'" fill="none" stroke="#C8102E" stroke-width="3.2" stroke-linecap="round" opacity=".5"/>'
+
+  sts.forEach((st,i)=>{
+    const p=pts[i],t=states[i]
+    const nm=splitName(st.name)
+    const fill=t==='earned'?'#C8102E':t==='pending'?'#FDF3E2':t==='locked'?'#EFE6D8':'#FFFFFF'
+    const stroke=t==='earned'?'#C8102E':t==='pending'?'#C79A3A':t==='locked'?'#DDCDB6':'#B08A5A'
+    const tc=t==='earned'?'#fff':t==='pending'?'#8A5A0B':t==='locked'?'#BCAB92':'#7A5A32'
+    const lc=t==='locked'?'#BCAB92':'#6E5232'
+    g+='<g class="nd '+(t==='locked'?'lk':'')+'"'+(t!=='locked'?' data-st="'+st.id+'"':'')+'>'
+      +(t==='earned'?'<circle cx="'+p.x+'" cy="'+p.y+'" r="25" fill="none" stroke="#F2CDD4" stroke-width="1.4" stroke-dasharray="3 4"/>':'')
+      +(t==='pending'?'<circle cx="'+p.x+'" cy="'+p.y+'" r="25" fill="none" stroke="#EBD3A4" stroke-width="1.4" stroke-dasharray="3 4"/>':'')
+      +'<circle cx="'+p.x+'" cy="'+p.y+'" r="19" fill="'+fill+'" stroke="'+stroke+'" stroke-width="2"/>'
+      +(t==='earned'
+        ? '<path d="M'+(p.x-5.5)+' '+p.y+' l4 4.2 l7.5 -8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
+        : t==='locked'
+        ? '<path d="M'+(p.x-3.6)+' '+(p.y-.6)+' v-3 a3.6 3.6 0 0 1 7.2 0 v3" fill="none" stroke="'+tc+'" stroke-width="1.5"/><rect x="'+(p.x-5)+'" y="'+(p.y-.6)+'" width="10" height="7.5" rx="1.6" fill="'+tc+'"/>'
+        : '<text x="'+p.x+'" y="'+(p.y+1)+'" text-anchor="middle" dominant-baseline="central" font-size="12.5" font-weight="600" fill="'+tc+'">'+st.order_no+'</text>')
+      +'<text x="'+p.x+'" y="'+(p.y+34)+'" text-anchor="middle" font-size="11" font-weight="500" fill="'+lc+'">'+esc(nm[0])+'</text>'
+      +(nm[1]?'<text x="'+p.x+'" y="'+(p.y+47)+'" text-anchor="middle" font-size="9.5" fill="'+(t==='locked'?'#C6B7A0':'#9A7E5A')+'">'+esc(nm[1])+'</text>':'')
+      +'</g>'
+  })
+
+  g+=chestSVG(tre.x,tre.y,1.35,done)
+    +'<text x="'+tre.x+'" y="'+(tre.y+36)+'" text-anchor="middle" font-size="11" font-weight="500" fill="'+(done?'#B8860B':'#6E5232')+'">'+(done?'宝藏开启':'终点宝藏')+'</text>'
+    +'<text x="'+tre.x+'" y="'+(tre.y+49)+'" text-anchor="middle" font-size="9.5" fill="#9A7E5A">'+(done?'恭喜完成全部航程':'集满 '+n+' 枚印章解锁')+'</text>'
+
+  g+=boatSVG(bp.x+(lastEarned>=0?30:0),bp.y-3,1.15,'boat')
+  g+='</svg></div></div>'
+  return g
+}
+
+function splash(){
+  const el=document.createElement('div')
+  el.id='splash'
+  const pts=[{x:26,y:104},{x:96,y:66},{x:170,y:110},{x:246,y:64},{x:322,y:100}]
+  let d='M'+pts[0].x+','+pts[0].y
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i],m=(a.x+b.x)/2
+    d+=' C'+m+','+a.y+' '+m+','+b.y+' '+b.x+','+b.y
+  }
+  el.innerHTML='<div class="sp-t">AMPLIFON \u00b7 \u5b89\u6e43\u58f0</div>'
+    +'<div class="sp-n">\u5b66\u4e60\u62a4\u7167</div>'
+    +'<svg viewBox="0 0 360 190" aria-hidden="true">'
+    +'<path id="spR" d="'+d+'" fill="none" stroke="#DCC7A8" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 6"/>'
+    +'<path d="'+d+'" fill="none" stroke="#C8102E" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="420" stroke-dashoffset="420" style="animation:draw 1.7s var(--ez) .35s forwards" opacity=".6"/>'
+    +pts.slice(0,4).map((p,i)=>'<circle cx="'+p.x+'" cy="'+p.y+'" r="5" fill="#fff" stroke="#C8102E" stroke-width="2" opacity="0" style="animation:spIn .4s ease '+(0.5+i*0.32)+'s forwards"/>').join('')
+    +'<g opacity="0" style="animation:chest .7s var(--ez) 1.85s forwards;transform-origin:'+pts[4].x+'px '+pts[4].y+'px">'+chestSVG(pts[4].x,pts[4].y-4,1.15,true)+'</g>'
+    +'<g><animateMotion dur="2s" begin=".35s" fill="freeze" rotate="0" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#spR"/></animateMotion>'
+    +boatSVG(0,-4,1.15,'boat')+'</g>'
+    +'<g opacity=".45"><path class="wave" d="M-60 168 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#DCC7A8" stroke-width="1.5"/></g>'
+    +'</svg>'
+    +'<div class="sp-s">\u6536\u96c6\u5c5e\u4e8e\u4f60\u7684\u5370\u7ae0\uff0c\u62b5\u8fbe\u7ec8\u70b9\u7684\u5b9d\u85cf</div>'
+    +'<button class="sp-go" id="spGo">\u542f\u822a <i class="ti ti-arrow-right"></i></button>'
+  document.body.appendChild(el)
+  const close=()=>{el.classList.add('out');setTimeout(()=>el.remove(),650)}
+  el.querySelector('#spGo').onclick=close
+}
+
+/* ========== TAB 1 · PASSPORT ========== */
 function vPass(){
-  const u=S.me.id,tot=CORE().length,g=gotN(u),pct=Math.round(g/tot*100)
-  const grp=S.groups.find(x=>x.id===S.me.group_id)
-  const rad=S.people.find(x=>grp&&x.user_code===grp.rad_code)
-  const hb=S.people.find(x=>grp&&x.user_code===grp.hrbp_code)
-  const nx=CORE().find(s=>stState(u,s)==='open')||CORE().find(s=>stState(u,s)==='pending')
+  const u=S.me.id,tot=TOT(),g=gotN(u),pct=tot?Math.round(g/tot*100):0
+  const rad=S.people.find(x=>x.user_code===S.me.rad_code)
+  const hb=S.people.find(x=>x.user_code===S.me.hrbp_code)
+  const nx=S.stamps.find(s=>stState(u,s)==='open')||S.stamps.find(s=>stState(u,s)==='pending')
   let h='<div class="cover"><div class="cover-top">'
-    +'<div class="cover-brand">AMPLIFON \u00b7 \u5b89\u6e43\u58f0</div>'
+    +'<div class="cover-brand">AMPLIFON · 安湃声</div>'
     +'<div class="cover-code">'+esc(S.me.user_code)+'</div></div>'
-    +'<div class="cover-e">\u5b66\u4e60\u62a4\u7167 \u00b7 LEARNING PASSPORT</div>'
-    +'<div class="cover-n">'+esc(S.me.name)+'</div>'
-    +'<div class="cover-m">'+(S.me.user_type==='expert'?'\u4e13\u5bb6':'\u533a\u57df\u7ecf\u7406')+(grp?' \u00b7 '+esc(grp.name):'')+'</div>'
+    +'<div class="cover-e">学习护照 · LEARNING PASSPORT</div>'
+    +'<div class="cover-id">'+ava(S.me,52,'ava-w')
+      +'<div class="cover-idt"><div class="cover-n">'+esc(dispName(S.me))+'</div>'
+      +'<div class="cover-m">'+(S.me.user_type==='expert'?'专家 · 自愿参与':(S.me.region||'区域经理'))+'</div></div></div>'
     +'<div class="cover-seal"><i class="ti ti-rosette"></i><b>'+g+'</b></div>'
     +'<div class="cover-p"><div class="cover-pr">'
-    +'<div class="cover-pl">\u5df2\u83b7\u5f97 '+g+' / '+tot+' \u679a\u5370\u7ae0</div>'
-    +'<div class="cover-pn">'+pct+'%</div></div>'
-    +'<div class="trk"><div style="width:'+pct+'%"></div></div>'
-    +'<div class="cover-dots">'+CORE().map(s=>{const t=stState(u,s)
+    +'<div class="cover-pl">已获得 '+g+' / '+tot+' 枚印章</div>'
+    +'<div class="cover-pn"><span data-cnt="'+pct+'" data-suf="%">0%</span></div></div>'
+    +'<div class="trk"><div data-w="'+pct+'"></div></div>'
+    +'<div class="cover-dots">'+S.stamps.map(s=>{const t=stState(u,s)
       return '<i class="'+(t==='earned'?'e':t==='pending'?'p':'')+'"></i>'}).join('')+'</div></div></div>'
-
   if(S.me.user_type==='expert')
-    h+='<div class="bn nvy"><i class="ti ti-info-circle"></i><span>\u4e13\u5bb6\u4e3a\u81ea\u613f\u53c2\u4e0e\uff0c\u4e0d\u5f3a\u5236\u5b8c\u6210\u5168\u90e8\u8282\u70b9\uff0c\u53ef\u6309\u9700\u6253\u5361</span></div>'
-
-  h+='<div class="ib"><div class="ib-c"><div class="ib-n">'+lvN(u)+'</div><div class="ib-l">\u76f4\u64ad\u8bfe\u6253\u5361</div></div>'
-    +'<div class="ib-c"><div class="ib-n">'+(tot-g)+'</div><div class="ib-l">\u5f85\u5b8c\u6210\u8282\u70b9</div></div>'
-    +'<div class="ib-c"><div class="ib-n">'+S.notifs.filter(n=>!n.read_at).length+'</div><div class="ib-l">\u672a\u8bfb\u6d88\u606f</div></div></div>'
-
+    h+='<div class="bn nvy"><i class="ti ti-info-circle"></i><span>专家为自愿参与，不强制完成全部节点，可按需打卡</span></div>'
+  h+='<div class="ib">'
+    +'<div class="ib-c"><div class="ib-n" data-cnt="'+g+'">0</div><div class="ib-l">已获印章</div></div>'
+    +'<div class="ib-c"><div class="ib-n" data-cnt="'+(tot-g)+'">0</div><div class="ib-l">待完成节点</div></div>'
+    +'<div class="ib-c"><div class="ib-n" data-cnt="'+S.notifs.filter(n=>!n.read_at).length+'">0</div><div class="ib-l">未读消息</div></div></div>'
   if(nx){
     const t=stState(u,nx)
-    h+='<div class="lbl">\u4e0b\u4e00\u7ad9</div><div class="jn can" data-st="'+nx.id+'">'
+    h+='<div class="lbl">下一站</div><div class="sc can" style="text-align:left;display:flex;align-items:center;gap:13px;padding:14px 16px" data-st="'+nx.id+'">'
       +'<div class="seal '+(t==='pending'?'wait':'open')+'"><i class="ti '+(t==='pending'?'ti-clock':'ti-flag')+'"></i></div>'
-      +'<div class="jn-m"><div class="jn-t">'+esc(nx.name)+'</div><div class="jn-s">'+esc(nx.subtitle||'')+'</div></div>'
-      +'<div class="jn-r"><i class="ti ti-chevron-right" style="color:var(--t3)"></i></div></div>'
+      +'<div style="flex:1;min-width:0"><div class="sc-n" style="font-size:14px">'+esc(nx.name)+'</div>'
+      +'<div class="sc-s">'+esc(nx.subtitle||'')+' · 审批 '+apprLbl(nx)+'</div></div>'
+      +'<i class="ti ti-chevron-right" style="color:var(--t3)"></i></div>'
   }
-
-  h+='<div class="lbl">\u6211\u7684\u5c0f\u7ec4</div><div class="card flat"><div class="card-b">'
-    +'<div class="rw"><div class="rw-i" style="background:var(--red-l);color:var(--red)"><i class="ti ti-user-star"></i></div>'
-    +'<div class="rw-m"><div class="rw-t">'+esc(rad?rad.name:'\u5f85\u5b9a')+'</div><div class="rw-s">\u5c0f\u7ec4\u957f \u00b7 \u5b9e\u8df5\u7ae0\u5ba1\u6279</div></div></div>'
-    +'<div class="rw"><div class="rw-i" style="background:var(--nv-l);color:var(--nv)"><i class="ti ti-user-check"></i></div>'
-    +'<div class="rw-m"><div class="rw-t">'+esc(hb?hb.name:'\u5f85\u5b9a')+'</div><div class="rw-s">HRBP \u00b7 \u7b7e\u5230\u786e\u8ba4</div></div></div>'
-    +'<div class="rw"><div class="rw-i" style="background:var(--bg2);color:var(--t2)"><i class="ti ti-calendar"></i></div>'
-    +'<div class="rw-m"><div class="rw-t">2026\u5e749\u6708 \u2013 2027\u5e742\u6708</div><div class="rw-s">\u9879\u76ee\u5468\u671f</div></div></div>'
+  h+='<div class="lbl">我的审批人</div><div class="card flat"><div class="card-b">'
+  if(S.me.user_type==='expert'){
+    h+='<div class="rw"><div class="rw-i" style="background:var(--bg2);color:var(--t2)"><i class="ti ti-user-off"></i></div>'
+      +'<div class="rw-m"><div class="rw-t">无需挂靠审批人</div><div class="rw-s">专家为自愿参与</div></div></div>'
+  }else{
+    h+='<div class="rw"><div class="rw-i" style="background:var(--red-l);color:var(--red)"><i class="ti ti-user-star"></i></div>'
+      +'<div class="rw-m"><div class="rw-t">'+esc(rad?rad.name:'待分配')+'</div><div class="rw-s">区域总监 · 实践章审批</div></div></div>'
+      +'<div class="rw"><div class="rw-i" style="background:var(--nv-l);color:var(--nv)"><i class="ti ti-user-check"></i></div>'
+      +'<div class="rw-m"><div class="rw-t">'+esc(hb?hb.name:'待分配')+'</div><div class="rw-s">HRBP · 实践章与收尾章审批</div></div></div>'
+  }
+  h+='<div class="rw"><div class="rw-i" style="background:var(--bg2);color:var(--t2)"><i class="ti ti-calendar"></i></div>'
+    +'<div class="rw-m"><div class="rw-t">2026年9月 – 2027年2月</div><div class="rw-s">项目周期</div></div></div>'
     +'</div></div>'
   return h
 }
 
-/* ===== TAB 2 : STAMPS ===== */
+/* ========== TAB 2 · STAMPS ========== */
+function monOf(st){
+  if(!st.unlock_date)return'全程'
+  const d=new Date(st.unlock_date)
+  return d.getFullYear()+'年 '+(d.getMonth()+1)+'月'
+}
 function vStamps(){
-  const u=S.me.id,tot=CORE().length,g=gotN(u),pct=Math.round(g/tot*100)
-  const byM={}
-  CORE().forEach(s=>{const m=monOf(s);if(!byM[m])byM[m]=[];byM[m].push(s)})
+  const u=S.me.id,tot=TOT(),g=gotN(u),pct=tot?Math.round(g/tot*100):0
+  const byM={};S.stamps.forEach(s=>{const m=monOf(s);if(!byM[m])byM[m]=[];byM[m].push(s)})
   let h='<div class="card" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:9px">'
-    +'<div><div style="font-size:14px;font-weight:500">\u96c6\u7ae0\u8fdb\u5ea6</div>'
-    +'<div style="font-size:12px;color:var(--t2);margin-top:1px">\u5df2\u5b8c\u6210 '+g+' / '+tot+' \u679a</div></div>'
-    +'<div style="font-size:24px;font-weight:500;color:var(--red)">'+pct+'%</div></div>'
-    +'<div class="pc-k" style="height:6px;margin-bottom:0"><div class="f" style="width:'+pct+'%"></div></div></div>'
-
+    +'<div><div style="font-size:14px;font-weight:500">集章进度</div>'
+    +'<div style="font-size:12px;color:var(--t2);margin-top:1px">已完成 '+g+' / '+tot+' 枚</div></div>'
+    +'<div style="font-size:24px;font-weight:500;color:var(--red)"><span data-cnt="'+pct+'" data-suf="%">0%</span></div></div>'
+    +'<div class="pc-k" style="height:6px;margin-bottom:0"><div class="f" data-w="'+pct+'"></div></div></div>'
+  h+=journeyMap(u)
   Object.keys(byM).forEach(m=>{
-    const arr=byM[m]
-    h+='<div class="lbl">'+esc(m)+'</div><div class="grid">'+arr.map(s=>sCard(u,s)).join('')+'</div>'
+    h+='<div class="lbl">'+esc(m)+'</div><div class="grid">'+byM[m].map(s=>sCard(u,s)).join('')+'</div>'
   })
-  h+='<div class="lbl">\u5e76\u884c\u8f68</div><div class="grid">'+CNT().map(s=>sCard(u,s)).join('')+'</div>'
   return h
 }
 function sCard(u,st){
   const t=stState(u,st)
-  if(t==='counter'){
-    const n=lvN(u)
-    return '<div class="sc can" data-live="1"><div class="seal cnt" style="margin:0 auto 10px"><b>'+n+'</b><span>\u6b21</span></div>'
-      +'<div class="sc-n">'+esc(st.name)+'</div><div class="sc-s">'+esc(st.subtitle||'')+'</div>'
-      +'<div class="sc-t" style="color:var(--nv)">\u5df2\u6253\u5361 '+n+' \u6b21</div></div>'
-  }
-  const M={earned:['done','ti-rosette','\u5df2\u83b7\u7ae0','var(--red)'],
-    pending:['wait','ti-clock','\u5f85\u5ba1\u6279','var(--am)'],
-    open:['open','ti-circle-dashed','\u8fdb\u884c\u4e2d','var(--t2)'],
-    locked:['lk','ti-lock',(st.unlock_date?new Date(st.unlock_date).getMonth()+1+'\u6708\u5f00\u653e':'\u672a\u5f00\u653e'),'var(--t3)']}
+  const M={earned:['done','ti-rosette','已获章','var(--red)'],
+    pending:['wait','ti-clock','待审批','var(--am)'],
+    open:['open','ti-circle-dashed','进行中','var(--t2)'],
+    locked:['lk','ti-lock',(st.unlock_date?new Date(st.unlock_date).getMonth()+1+'月开放':'未开放'),'var(--t3)']}
   const c=M[t]
   return '<div class="sc '+(t==='locked'?'lk':'can')+' '+(t==='earned'?'done':'')+'"'+(t!=='locked'?' data-st="'+st.id+'"':'')+'>'
     +'<div class="seal '+c[0]+'" style="margin:0 auto 10px"><i class="ti '+c[1]+'"></i></div>'
@@ -521,109 +723,193 @@ function sCard(u,st){
     +'<div class="sc-t" style="color:'+c[3]+'">'+c[2]+'</div></div>'
 }
 
-/* ===== TAB 3 : RANKING ===== */
+/* ========== TAB 3 · RANKING (individual) ========== */
 function vRank(){
-  const tot=CORE().length
-  const ls=S.people.filter(p=>p.role==='learner'&&p.must_complete)
-  const rows=S.groups.map(g=>{
-    const ps=ls.filter(p=>p.group_id===g.id)
-    const pct=ps.length?Math.round(ps.reduce((s,p)=>s+gotN(p.id),0)/(ps.length*tot)*100):0
-    const full=ps.filter(p=>gotN(p.id)===tot).length
-    return {g:g,ps:ps,pct:pct,full:full,mine:g.id===S.me.group_id}
-  }).filter(r=>r.ps.length).sort((a,b)=>b.pct-a.pct)
-  const my=gotN(S.me.id),myPct=Math.round(my/tot*100)
-  const ready=ls.filter(p=>gotN(p.id)===tot).length
-
-  let h='<div class="card" style="padding:16px 18px;display:flex;align-items:center;gap:14px">'
-    +'<div class="seal done" style="width:44px;height:44px;font-size:18px"><i class="ti ti-rosette"></i></div>'
-    +'<div style="flex:1"><div style="font-size:13.5px;font-weight:500">\u6211\u7684\u8fdb\u5ea6</div>'
-    +'<div style="font-size:12px;color:var(--t2)">'+my+' / '+tot+' \u679a\u5370\u7ae0</div></div>'
-    +'<div style="font-size:22px;font-weight:500;color:var(--red)">'+myPct+'%</div></div>'
-    +'<div class="lbl">\u5404\u7ec4\u6392\u540d</div>'
-
-  rows.forEach((r,i)=>{
-    h+='<div class="rk '+(r.mine?'mine':'')+'">'
-      +'<div class="rk-no'+(i===0?' top':'')+'">'+(i+1)+'</div>'
-      +'<div style="flex:1;min-width:0"><div class="rk-t">'+esc(r.g.name)
-      +(r.mine?'<span class="bg rd" style="margin-left:6px">\u6211\u7684\u7ec4</span>':'')+'</div>'
-      +'<div class="rk-s">'+r.ps.length+' \u4eba \u00b7 '+r.full+' \u4eba\u5df2\u96c6\u6ee1</div>'
-      +'<div class="pc-k" style="margin-top:7px;margin-bottom:0"><div class="'+(r.pct===100?'f':'')+'" style="width:'+r.pct+'%"></div></div></div>'
-      +'<div class="rk-p">'+r.pct+'%</div></div>'
+  const tot=TOT()
+  const ams=S.people.filter(p=>p.role==='learner'&&p.user_type==='am')
+    .map(p=>({p:p,g:gotN(p.id)}))
+    .sort((a,b)=>b.g-a.g||a.p.user_code.localeCompare(b.p.user_code))
+  let rank=0,last=-1
+  ams.forEach((x,i)=>{if(x.g!==last){rank=i+1;last=x.g}x.rank=rank})
+  const me=ams.find(x=>x.p.id===S.me.id)
+  const ready=ams.filter(x=>x.g===tot).length
+  const exs=S.people.filter(p=>p.role==='learner'&&p.user_type==='expert')
+    .map(p=>({p:p,g:gotN(p.id)})).filter(x=>x.g>0).sort((a,b)=>b.g-a.g)
+  let h=''
+  if(me){
+    const pct=tot?Math.round(me.g/tot*100):0
+    h+='<div class="card" style="padding:16px 18px;display:flex;align-items:center;gap:14px">'
+      +ava(me.p,46)
+      +'<div style="flex:1"><div style="font-size:13.5px;font-weight:500">\u6211\u7684\u6392\u540d \u00b7 \u7b2c '+me.rank+' \u4f4d</div>'
+      +'<div style="font-size:12px;color:var(--t2)">\u5171 '+ams.length+' \u4f4d\u533a\u57df\u7ecf\u7406 \u00b7 '+me.g+' / '+tot+' \u679a\u5370\u7ae0</div></div>'
+      +'<div style="font-size:22px;font-weight:500;color:var(--red)"><span data-cnt="'+pct+'" data-suf="%">0%</span></div></div>'
+  }
+  h+='<div class="lbl">\u533a\u57df\u7ecf\u7406\u6392\u884c \u00b7 \u5b9e\u65f6\u66f4\u65b0</div>'
+  ams.forEach(x=>{
+    const pct=tot?Math.round(x.g/tot*100):0
+    const cls=x.rank===1?'g1':x.rank===2?'g2':x.rank===3?'g3':''
+    h+='<div class="rk '+(x.p.id===S.me.id?'mine':'')+'">'
+      +'<div class="rk-no '+cls+'">'+x.rank+'</div>'
+      +ava(x.p,34)
+      +'<div style="flex:1;min-width:0"><div class="rk-t">'+esc(dispName(x.p))
+      +(x.p.id===S.me.id?'<span class="bg rd" style="margin-left:6px">\u6211</span>':'')
+      +'<span style="font-weight:400;color:var(--t3);font-size:11px;margin-left:5px">'+esc(x.p.region||'')+'</span></div>'
+      +'<div class="rk-s">'+x.g+' / '+tot+' \u679a\u5370\u7ae0</div>'
+      +'<div class="pc-k" style="margin-top:7px;margin-bottom:0"><div class="'+(x.g===tot?'f':'')+'" data-w="'+pct+'"></div></div></div>'
+      +'<div class="rk-p">'+pct+'%</div></div>'
   })
-
+  if(exs.length){
+    h+='<div class="lbl">\u4e13\u5bb6 \u00b7 \u81ea\u613f\u53c2\u4e0e</div>'
+    exs.forEach(x=>{
+      const pct=tot?Math.round(x.g/tot*100):0
+      h+='<div class="rk '+(x.p.id===S.me.id?'mine':'')+'">'
+        +'<div class="rk-no"><i class="ti ti-star" style="font-size:13px"></i></div>'
+        +ava(x.p,34)
+        +'<div style="flex:1;min-width:0"><div class="rk-t">'+esc(dispName(x.p))+'</div>'
+        +'<div class="rk-s">'+x.g+' / '+tot+' \u679a\u5370\u7ae0</div>'
+        +'<div class="pc-k" style="margin-top:7px;margin-bottom:0"><div data-w="'+pct+'"></div></div></div>'
+        +'<div class="rk-p">'+pct+'%</div></div>'
+    })
+  }
   h+='<div class="lbl">\u6bd5\u4e1a\u8fdb\u5ea6</div><div class="card" style="text-align:center;padding:24px">'
     +'<div style="font-size:13px;font-weight:500;margin-bottom:4px">\u7ec8\u671f\u6c47\u62a5 \u00b7 2027\u5e742\u6708</div>'
-    +'<div style="font-size:12.5px;color:var(--t2);line-height:1.6">\u96c6\u6ee1 '+tot+' \u679a\u5370\u7ae0\u5373\u53ef\u53c2\u52a0<br>\u5168\u5458 '+ls.length+' \u4eba \u00b7 \u76ee\u524d '+ready+' \u4eba\u8fbe\u6210</div>'
-    +'<div style="display:flex;justify-content:center;gap:5px;margin-top:14px;flex-wrap:wrap">'
-    +CORE().map(s=>{const t=stState(S.me.id,s)
-      return '<span style="width:9px;height:9px;border-radius:50%;background:'+(t==='earned'?'var(--red)':'var(--bg3)')+'"></span>'}).join('')
-    +'</div><div style="font-size:11px;color:var(--t3);margin-top:8px">\u4f60\u7684\u5370\u7ae0\u6536\u96c6\u8fdb\u5ea6</div></div>'
-  return h
+    +'<div style="font-size:12.5px;color:var(--t2);line-height:1.6">\u96c6\u6ee1 '+tot+' \u679a\u5370\u7ae0\u5373\u53ef\u53c2\u52a0<br>\u533a\u57df\u7ecf\u7406 '+ams.length+' \u4eba \u00b7 \u76ee\u524d '+ready+' \u4eba\u8fbe\u6210</div>'
+  if(S.me.role==='learner'){
+    h+='<div style="display:flex;justify-content:center;gap:5px;margin-top:14px;flex-wrap:wrap">'
+      +S.stamps.map(st=>{const t=stState(S.me.id,st)
+        return '<span style="width:9px;height:9px;border-radius:50%;background:'+(t==='earned'?'var(--red)':'var(--bg3)')+'"></span>'}).join('')
+      +'</div><div style="font-size:11px;color:var(--t3);margin-top:8px">\u4f60\u7684\u5370\u7ae0\u6536\u96c6\u8fdb\u5ea6</div>'
+  }
+  return h+'</div>'
 }
 
-function myLs(){const a=S.people.filter(p=>p.role==='learner');return isGl()?a:a.filter(p=>p.group_id===S.me.group_id)}
-function pendN(u){
-  let n=0;const r=S.me.role
-  S.stamps.forEach(st=>{
-    if(st.complete_type==='counter'){if(r==='hrbp'||isGl())n+=S.live.filter(l=>l.user_id===u&&!l.confirmed).length;return}
-    if(st.complete_type==='assignment'){
-      if((st.needs_rad&&r==='rad')||(st.needs_hrbp&&r==='hrbp')||isGl()){
-        const ids=S.assigns.filter(a=>a.stamp_id===st.id).map(a=>a.id)
-        n+=S.subs.filter(s=>s.user_id===u&&ids.includes(s.assignment_id)&&s.status==='submitted').length}
-      return}
-    const p=pOf(u,st.id);if(!p||p.status==='todo'||p.status==='earned')return
-    if(st.needs_hrbp&&(r==='hrbp'||isGl())&&!p.hrbp_ok_at)n++
-    if(st.needs_rad&&(r==='rad'||isGl())&&!p.rad_ok_at)n++
-    if(st.needs_hr&&isGl()&&!p.hr_ok_at)n++})
-  return n
+/* ========== STAMP MODAL ========== */
+function openStamp(sid){
+  const st=S.stamps.find(x=>x.id===sid),u=S.me.id,t=stState(u,st),p=pOf(u,sid),ap=appr(p)
+  let b=''
+  if(t==='earned')b+='<div class="bn grn"><i class="ti ti-rosette"></i><span>印章已获得'+(p&&p.earned_at?' · '+fmt(p.earned_at):'')+'</span></div>'
+  else if(t==='pending')b+='<div class="bn amb"><i class="ti ti-clock"></i><span>已提交，等待 '+apprLbl(st)+' 确认'+(roles(st).length>1?'（需全部通过才盖章）':'')+'</span></div>'
+  else b+='<div class="bn nvy"><i class="ti ti-pencil"></i><span>'+(st.complete_type==='assignment'?'请完成并上传以下作业':'请点击下方按钮签到，等待确认')+'</span></div>'
+  const mats=S.mats.filter(m=>m.stamp_id===sid)
+  if(mats.length){
+    b+='<div class="lbl" style="margin:16px 0 8px">\u8bfe\u4ef6\u8d44\u6599</div>'
+      +mats.map(m=>'<div class="fr" style="margin-top:0;margin-bottom:8px"><i class="ti '+fico(m.file_name)+'"></i>'
+        +'<div style="flex:1;min-width:0"><div class="fr-n" style="font-weight:500">'+esc(m.file_name)+'</div>'
+        +(m.note?'<div style="font-size:11px;color:var(--t3)">'+esc(m.note)+'</div>':'')+'</div>'
+        +'<button class="btn btn-sm btn-gh" data-dlm="'+esc(m.file_path)+'"><i class="ti ti-download"></i></button></div>').join('')
+  }
+  if(st.complete_type==='assignment'){
+    b+='<div class="lbl" style="margin:16px 0 8px">\u4f5c\u4e1a\u63d0\u4ea4</div>'
+    b+=S.assigns.filter(a=>a.stamp_id===sid).map(a=>{
+      const s=S.subs.find(x=>x.user_id===u&&x.assignment_id===a.id)
+      const bd=!s?'<span class="bg td">待提交</span>':s.status==='approved'?'<span class="bg ok">已通过</span>'
+        :s.status==='rejected'?'<span class="bg rj">已退回</span>':'<span class="bg wt">审核中</span>'
+      let x=''
+      if(s&&s.file_name)x+='<div class="fr"><i class="ti ti-file-spreadsheet"></i><div class="fr-n">'+esc(s.file_name)+'</div><span style="font-size:11px;color:var(--t3)">'+fmt(s.submitted_at)+'</span></div>'
+      if(s&&s.status==='rejected'&&s.note)x+='<div class="bn red" style="margin:9px 0 0"><i class="ti ti-message-circle"></i><span>退回原因：'+esc(s.note)+'</span></div>'
+      if(!s||s.status==='rejected')x+='<div class="up" data-up="'+a.id+'"><i class="ti ti-cloud-upload"></i><div class="up-t">点击上传文件</div><div class="up-s">Excel / PDF / 图片，不超过 10MB</div></div>'
+        +'<input type="file" class="hide" id="f_'+a.id+'" >'
+      return '<div class="sub-c"><div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:5px">'
+        +'<div style="font-size:13.5px;font-weight:500">'+esc(a.title)+'</div>'+bd+'</div>'
+        +'<div style="font-size:12.5px;color:var(--t2);line-height:1.6">'+esc(a.description||'')+'</div>'+x+'</div>'
+    }).join('')
+    if(st.deadline)b+='<div style="font-size:12px;color:var(--t3);text-align:center">提交截止 '+fmt(st.deadline)+'</div>'
+  }else{
+    const d=p&&p.status&&p.status!=='todo'
+    b+='<div class="sub-c" style="padding:4px 14px"><div class="rw">'
+      +'<div class="rw-i" style="background:'+(d?'var(--gr-l)':'var(--bg2)')+';color:'+(d?'var(--gr)':'var(--t3)')+'"><i class="ti '+(d?'ti-check':'ti-map-pin')+'"></i></div>'
+      +'<div class="rw-m"><div class="rw-t">课程签到</div><div class="rw-s">'+(d?'已签到 · '+fmt(p.signed_in_at):'尚未签到')+'</div></div></div>'
+    roles(st).forEach(r=>{
+      const o=ap[r]
+      b+='<div class="rw"><div class="rw-i" style="background:'+(o?'var(--gr-l)':'var(--bg2)')+';color:'+(o?'var(--gr)':'var(--t3)')+'"><i class="ti '+(o?'ti-check':'ti-hourglass-low')+'"></i></div>'
+        +'<div class="rw-m"><div class="rw-t">'+RN[r]+' 确认</div><div class="rw-s">'+(o?'已确认 · '+fmt(o):'等待确认')+'</div></div></div>'
+    })
+    b+='</div>'
+    if(!d)b+='<button class="btn" style="margin-top:12px" data-si="'+sid+'"><i class="ti ti-map-pin-check"></i>我已参加，立即签到</button>'
+  }
+  modal(st.name,st.subtitle,b)
 }
+
+/* ========== MANAGER ========== */
+function myLs(){
+  const a=S.people.filter(p=>p.role==='learner')
+  if(isGl())return a
+  if(S.me.role==='rad')return a.filter(p=>p.rad_code===S.me.user_code)
+  if(S.me.role==='hrbp')return a.filter(p=>p.hrbp_code===S.me.user_code)
+  return []
+}
+function canApprove(st){if(isGM())return false;return roles(st).includes(S.me.role)||(isAdm()&&roles(st).length>0)}
+function myTasks(){
+  if(!S.me||S.me.role==='learner')return[]
+  const o=[]
+  myLs().forEach(u=>S.stamps.forEach(st=>{
+    if(!canApprove(st))return
+    const p=pOf(u.id,st.id);if(!p||p.status==='earned')return
+    const ap=appr(p)
+    if(st.complete_type==='assignment'){
+      const done=S.assigns.filter(a=>a.stamp_id===st.id)
+      done.forEach(a=>S.subs.filter(s=>s.user_id===u.id&&s.assignment_id===a.id&&s.status==='submitted')
+        .forEach(s=>o.push({k:'sub',u:u,st:st,as:a,sub:s})))
+      const ids=done.map(a=>a.id)
+      const all=S.subs.filter(s=>s.user_id===u.id&&ids.includes(s.assignment_id))
+      if(ids.length&&all.length===ids.length&&all.every(s=>s.status==='approved')){
+        roles(st).forEach(r=>{if((r===S.me.role||isAdm())&&!ap[r])o.push({k:'seal',u:u,st:st,p:p,ar:r})})
+      }
+      return
+    }
+    if(p.status==='todo')return
+    roles(st).forEach(r=>{if((r===S.me.role||isAdm())&&!ap[r])o.push({k:'sign',u:u,st:st,p:p,ar:r})})
+  }))
+  return o
+}
+function pendN(u){return myTasks().filter(x=>x.u.id===u).length}
 function vOver(){
-  const ls=myLs(),tot=CORE().length,must=ls.filter(p=>p.must_complete)
-  const pend=ls.reduce((s,p)=>s+pendN(p.id),0)
+  const ls=myLs(),tot=TOT(),must=ls.filter(p=>p.must_complete)
+  const tasks=myTasks()
   const grad=must.filter(p=>gotN(p.id)===tot).length
   const stz=ls.reduce((s,p)=>s+gotN(p.id),0)
-  const byG={};ls.forEach(p=>{const g=p.group_id||'—';if(!byG[g])byG[g]=[];byG[g].push(p)})
-  let h='<div class="sts"><div class="st"><div class="st-n">'+ls.length+'</div><div class="st-l">学员总数</div></div>'
-    +'<div class="st"><div class="st-n r">'+pend+'</div><div class="st-l">待我审批</div></div>'
-    +'<div class="st"><div class="st-n">'+stz+'</div><div class="st-l">已获印章</div></div>'
-    +'<div class="st"><div class="st-n">'+grad+'/'+must.length+'</div><div class="st-l">达成毕业</div></div></div>'
-  Object.keys(byG).sort().forEach(g=>{
-    const gr=S.groups.find(x=>x.id===g),ps=byG[g]
-    h+='<div class="lbl">'+esc(gr?gr.name:g)+' · '+ps.length+' 人</div>'
-      +ps.sort((a,b)=>a.user_code.localeCompare(b.user_code)).map(p=>pCard(p,tot)).join('')
+  let h='<div class="sts"><div class="st"><div class="st-n" data-cnt="'+ls.length+'">0</div><div class="st-l">\u5b66\u5458\u603b\u6570</div></div>'
+    +'<div class="st"><div class="st-n r" data-cnt="'+tasks.length+'">0</div><div class="st-l">\u5f85\u6211\u5ba1\u6279</div></div>'
+    +'<div class="st"><div class="st-n" data-cnt="'+stz+'">0</div><div class="st-l">\u5df2\u83b7\u5370\u7ae0</div></div>'
+    +'<div class="st"><div class="st-n">'+grad+'/'+must.length+'</div><div class="st-l">\u8fbe\u6210\u6bd5\u4e1a</div></div></div>'
+  if(!ls.length)return h+'<div class="card"><div class="emp"><i class="ti ti-users"></i><div class="emp-t">\u6682\u65e0\u8d1f\u8d23\u5b66\u5458</div><div class="emp-s">\u8bf7\u8054\u7cfb\u7ba1\u7406\u5458\u914d\u7f6e\u6302\u9760\u5173\u7cfb</div></div></div>'
+  h+='<input class="srch" id="sq" placeholder="\u641c\u7d22\u59d3\u540d\u3001\u7f16\u53f7\u6216\u5927\u533a" value="'+esc(S.q)+'">'
+  const q=S.q.trim().toLowerCase()
+  const list=ls.filter(p=>!q||p.name.toLowerCase().includes(q)||p.user_code.toLowerCase().includes(q)||(p.region||'').toLowerCase().includes(q))
+  if(!list.length)return h+'<div class="card"><div class="emp"><i class="ti ti-search-off"></i><div class="emp-t">\u6ca1\u6709\u5339\u914d\u7ed3\u679c</div></div></div>'
+  const ams=list.filter(p=>p.user_type==='am'),exs=list.filter(p=>p.user_type==='expert')
+  const byR={};ams.forEach(p=>{const r=p.region||'\u672a\u5206\u914d';if(!byR[r])byR[r]=[];byR[r].push(p)})
+  Object.keys(byR).sort().forEach(r=>{
+    const ps=byR[r].sort((a,b)=>a.user_code.localeCompare(b.user_code))
+    const rad=S.people.find(x=>x.user_code===ps[0].rad_code)
+    const done=ps.filter(p=>gotN(p.id)===tot).length
+    h+='<div class="lbl">'+esc(r)+' \u00b7 '+ps.length+' \u4eba'+(rad?' \u00b7 '+esc(rad.name):'')+(done?' \u00b7 '+done+' \u4eba\u5df2\u96c6\u6ee1':'')+'</div>'
+      +ps.map(p=>pCard(p,tot)).join('')
   })
+  if(exs.length){
+    h+='<div class="lbl">\u4e13\u5bb6 \u00b7 '+exs.length+' \u4eba \u00b7 \u81ea\u613f\u53c2\u4e0e</div>'
+      +exs.sort((a,b)=>a.user_code.localeCompare(b.user_code)).map(p=>pCard(p,tot)).join('')
+  }
   return h
 }
 function pCard(p,tot){
-  const g=gotN(p.id),pct=Math.round(g/tot*100),pd=pendN(p.id)
-  return '<div class="pc" data-u="'+p.id+'"><div class="pc-t"><div>'
-    +'<div class="pc-n">'+esc(p.name)+'<span class="pc-c">'+esc(p.user_code)+'</span></div>'
-    +'<div class="pc-m">'+(p.user_type==='expert'?'专家 · 自愿':'区域经理')+' · '+g+'/'+tot+' 章 · 直播 '+lvN(p.id)+' 次</div></div>'
-    +'<div style="display:flex;align-items:center;gap:9px">'+(pd?'<span class="bg wt">'+pd+' 待审</span>':'')
-    +'<div class="pc-p" style="'+(g===tot?'color:var(--red)':'')+'">'+pct+'%</div></div></div>'
-    +'<div class="pc-k"><div class="'+(g===tot?'f':'')+'" style="width:'+pct+'%"></div></div>'
-    +'<div class="pc-d">'+CORE().map(s=>{const t=stState(p.id,s);return '<i class="'+(t==='earned'?'e':t==='pending'?'p':'')+'"></i>'}).join('')+'</div></div>'
-}
-function myTasks(){
-  if(!S.me||S.me.role==='learner')return[]
-  const r=S.me.role,o=[]
-  myLs().forEach(u=>S.stamps.forEach(st=>{
-    if(st.complete_type==='counter'){
-      if(r==='hrbp'||isGl())S.live.filter(l=>l.user_id===u.id&&!l.confirmed).forEach(l=>o.push({k:'live',u:u,st:st,live:l}))
-      return}
-    if(st.complete_type==='assignment'){
-      const cr=st.needs_rad&&(r==='rad'||isGl()),ch=st.needs_hrbp&&(r==='hrbp'||isGl())
-      if(!cr&&!ch)return
-      S.assigns.filter(a=>a.stamp_id===st.id).forEach(a=>
-        S.subs.filter(s=>s.user_id===u.id&&s.assignment_id===a.id&&s.status==='submitted')
-          .forEach(s=>o.push({k:'sub',u:u,st:st,as:a,sub:s})))
-      return}
-    const p=pOf(u.id,st.id);if(!p||p.status==='todo'||p.status==='earned')return
-    if(st.needs_hrbp&&(r==='hrbp'||isGl())&&!p.hrbp_ok_at)o.push({k:'sign',u:u,st:st,p:p,ar:'hrbp'})
-    if(st.needs_rad&&(r==='rad'||isGl())&&!p.rad_ok_at)o.push({k:'sign',u:u,st:st,p:p,ar:'rad'})
-    if(st.needs_hr&&isGl()&&!p.hr_ok_at)o.push({k:'sign',u:u,st:st,p:p,ar:'hr'})
-  }))
-  return o
+  const g=gotN(p.id),pct=tot?Math.round(g/tot*100):0,pd=pendN(p.id)
+  const sub=(p.user_type==='expert'?'\u4e13\u5bb6 \u00b7 \u81ea\u613f':(p.region||'\u533a\u57df\u7ecf\u7406'))+' \u00b7 '+g+'/'+tot+' \u7ae0'
+  return '<div class="pc" data-u="'+p.id+'">'
+    +'<div class="pc-t">'
+      +'<div class="pc-l">'+ava(p,34)
+        +'<div class="pc-x">'
+          +'<div class="pc-n">'+esc(dispName(p))+'<span class="pc-c">'+esc(p.user_code)+'</span></div>'
+          +'<div class="pc-m">'+sub+'</div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="pc-r">'+(pd?'<span class="bg wt">'+pd+' \u5f85\u5ba1</span>':'')
+        +'<div class="pc-p"'+(g===tot?' style="color:var(--red)"':'')+'>'+pct+'%</div>'
+      +'</div>'
+    +'</div>'
+    +'<div class="pc-k"><div class="'+(g===tot?'f':'')+'" data-w="'+pct+'"></div></div>'
+    +'<div class="pc-d">'+S.stamps.map(x=>{const t=stState(p.id,x);return '<i class="'+(t==='earned'?'e':t==='pending'?'p':'')+'"></i>'}).join('')+'</div>'
+  +'</div>'
 }
 function vApp(){
   const t=myTasks()
@@ -639,87 +925,345 @@ function vApp(){
   return h
 }
 function tRow(x){
-  const rn={hrbp:'HRBP 确认',rad:'组长确认',hr:'HR 确认'}[x.ar]||''
-  if(x.k==='live')return '<div class="rw"><div class="rw-i" style="background:var(--nv-l);color:var(--nv)"><i class="ti ti-broadcast"></i></div>'
-    +'<div class="rw-m"><div class="rw-t">'+esc(x.live.session_name)+'</div><div class="rw-s">直播打卡 · '+fmt(x.live.checked_at)+'</div></div>'
-    +'<div class="rw-r"><button class="btn btn-sm" data-okl="'+x.live.id+'">确认</button></div></div>'
   if(x.k==='sub')return '<div class="rw"><div class="rw-i" style="background:var(--am-l);color:var(--am)"><i class="ti ti-file-spreadsheet"></i></div>'
     +'<div class="rw-m"><div class="rw-t">'+esc(x.as.title)+'</div><div class="rw-s">'+esc(x.sub.file_name||'')+' · '+fmt(x.sub.submitted_at)+'</div></div>'
     +'<div class="rw-r"><button class="btn btn-sm btn-gh" data-vs="'+x.sub.id+'">查看</button></div></div>'
-  return '<div class="rw"><div class="rw-i" style="background:var(--red-l);color:var(--red)"><i class="ti ti-map-pin"></i></div>'
-    +'<div class="rw-m"><div class="rw-t">'+esc(x.st.name)+'</div><div class="rw-s">签到确认 · '+rn+' · '+fmt(x.p.signed_in_at)+'</div></div>'
+  const isSeal=x.k==='seal'
+  return '<div class="rw"><div class="rw-i" style="background:var(--red-l);color:var(--red)"><i class="ti '+(isSeal?'ti-rosette':'ti-map-pin')+'"></i></div>'
+    +'<div class="rw-m"><div class="rw-t">'+esc(x.st.name)+'</div>'
+    +'<div class="rw-s">'+(isSeal?'作业已全部通过 · 待盖章':'签到确认')+' · 以 '+RN[x.ar]+' 身份</div></div>'
     +'<div class="rw-r"><button class="btn btn-sm" data-oks="'+x.p.id+'|'+x.ar+'">确认</button></div></div>'
 }
 function vPerson(uid){
-  const u=S.people.find(p=>p.id===uid),tot=CORE().length,g=gotN(uid),pct=Math.round(g/tot*100)
+  const u=S.people.find(p=>p.id===uid),tot=TOT(),g=gotN(uid),pct=tot?Math.round(g/tot*100):0
+  const rad=S.people.find(x=>x.user_code===u.rad_code),hb=S.people.find(x=>x.user_code===u.hrbp_code)
   let h='<button class="btn btn-sm btn-gh" style="margin-bottom:14px" id="bBack"><i class="ti ti-arrow-left"></i>返回</button>'
     +'<div class="card"><div style="display:flex;justify-content:space-between;gap:14px;margin-bottom:14px"><div>'
-    +'<div style="font-size:19px;font-weight:500">'+esc(u.name)+'</div>'
-    +'<div style="font-size:12.5px;color:var(--t2);margin-top:2px">'+esc(u.user_code)+' · '+(u.user_type==='expert'?'专家':'区域经理')+' · '+esc(u.group_id||'')+'</div></div>'
+    +'<div style="font-size:19px;font-weight:500">'+esc(dispName(u))+(u.nickname?' <span style="font-size:12px;color:var(--t3);font-weight:400">'+esc(u.name)+'</span>':'')+'</div>'
+    +'<div style="font-size:12.5px;color:var(--t2);margin-top:2px">'+esc(u.user_code)+' · '+(u.user_type==='expert'?'专家':'区域经理')
+    +(rad?' · 总监 '+esc(rad.name):'')+(hb?' · HRBP '+esc(hb.name):'')+'</div></div>'
     +'<div style="text-align:right"><div style="font-size:24px;font-weight:500;color:var(--nv)">'+pct+'%</div>'
     +'<div style="font-size:11px;color:var(--t3)">'+g+'/'+tot+' 章</div></div></div>'
-    +'<div class="pc-k" style="height:6px"><div class="'+(g===tot?'f':'')+'" style="width:'+pct+'%"></div></div></div>'
+    +'<div class="pc-k" style="height:6px"><div class="'+(g===tot?'f':'')+'" data-w="'+pct+'"></div></div></div>'
     +'<div class="lbl">各节点状态</div><div class="card flat"><div class="card-b">'
   S.stamps.forEach(st=>{
-    const t=stState(uid,st)
-    if(t==='counter'){
-      h+='<div class="rw"><div class="rw-i" style="background:var(--nv);color:#fff;font-size:13px;font-weight:500">'+lvN(uid)+'</div>'
-        +'<div class="rw-m"><div class="rw-t">'+esc(st.name)+'</div><div class="rw-s">计数器 · 已确认 '+lvN(uid)+' 次</div></div></div>'
-      return}
+    const t=stState(uid,st),p=pOf(uid,st.id),ap=appr(p)
     const M={earned:['var(--red)','#fff','ti-rosette','已获章','ok'],pending:['var(--am-l)','var(--am)','ti-clock','待审批','wt'],
       open:['var(--bg2)','var(--t3)','ti-circle-dashed','进行中','td'],locked:['var(--bg3)','var(--t3)','ti-lock','未开放','td']}
     const c=M[t]
+    const detail=roles(st).map(r=>RN[r]+(ap[r]?'✓':'')).join(' · ')
     h+='<div class="rw"><div class="rw-i" style="background:'+c[0]+';color:'+c[1]+'"><i class="ti '+c[2]+'"></i></div>'
-      +'<div class="rw-m"><div class="rw-t">'+esc(st.name)+'</div><div class="rw-s">'+esc(st.subtitle||'')+'</div></div>'
+      +'<div class="rw-m"><div class="rw-t">'+esc(st.name)+'</div><div class="rw-s">'+detail+'</div></div>'
       +'<div class="rw-r"><span class="bg '+c[4]+'">'+c[3]+'</span></div></div>'
   })
   h+='</div></div>'
   if(isMgr())h+='<button class="btn btn-nv" data-nt="'+uid+'"><i class="ti ti-send"></i>发送提醒</button>'
   return h
 }
+
+/* ========== ADMIN ========== */
 function vAdmin(){
-  const ls=S.people.filter(p=>p.role==='learner'),tot=CORE().length
-  let h='<div class="sts"><div class="st"><div class="st-n">'+ls.filter(p=>p.user_type==='am').length+'</div><div class="st-l">区域经理</div></div>'
-    +'<div class="st"><div class="st-n">'+ls.filter(p=>p.user_type==='expert').length+'</div><div class="st-l">专家</div></div>'
-    +'<div class="st"><div class="st-n">'+S.groups.length+'</div><div class="st-l">分组</div></div>'
-    +'<div class="st"><div class="st-n">'+S.stamps.length+'</div><div class="st-l">打卡点</div></div></div>'
-    +'<div class="lbl">各组完成率</div>'
-  S.groups.forEach(g=>{
-    const ps=ls.filter(p=>p.group_id===g.id&&p.must_complete)
-    if(!ps.length)return
-    const pct=Math.round(ps.reduce((s,p)=>s+gotN(p.id),0)/(ps.length*tot)*100)
-    h+='<div class="pc" style="cursor:default"><div class="pc-t"><div><div class="pc-n">'+esc(g.name)+'</div>'
-      +'<div class="pc-m">'+ps.length+' 位必修学员</div></div><div class="pc-p">'+pct+'%</div></div>'
-      +'<div class="pc-k"><div style="width:'+pct+'%"></div></div></div>'
-  })
-  h+='<div class="lbl">全员名单</div>'+ls.sort((a,b)=>a.user_code.localeCompare(b.user_code)).map(p=>pCard(p,tot)).join('')
+  const ls=S.people.filter(p=>p.role==='learner'),tot=TOT()
+  const sub=S.adminTab||'acc'
+  let h='<div class="sts">'
+    +'<div class="st"><div class="st-n" data-cnt="'+ls.filter(p=>p.user_type==='am').length+'">0</div><div class="st-l">\u533a\u57df\u7ecf\u7406</div></div>'
+    +'<div class="st"><div class="st-n" data-cnt="'+ls.filter(p=>p.user_type==='expert').length+'">0</div><div class="st-l">\u4e13\u5bb6</div></div>'
+    +'<div class="st"><div class="st-n" data-cnt="'+S.people.filter(p=>p.role!=='learner').length+'">0</div><div class="st-l">\u7ba1\u7406\u8d26\u53f7</div></div>'
+    +'<div class="st"><div class="st-n" data-cnt="'+tot+'">0</div><div class="st-l">\u6253\u5361\u70b9</div></div></div>'
+  h+='<div class="seg">'
+    +'<button class="sg'+(sub==='acc'?' on':'')+'" data-at="acc"><i class="ti ti-users"></i>\u8d26\u53f7\u7ba1\u7406</button>'
+    +'<button class="sg'+(sub==='stm'?' on':'')+'" data-at="stm"><i class="ti ti-rosette"></i>\u4e3b\u9898\u914d\u7f6e</button>'
+    +'<button class="sg'+(sub==='fil'?' on':'')+'" data-at="fil"><i class="ti ti-files"></i>\u4f5c\u4e1a\u6587\u4ef6</button></div>'
+  if(sub==='acc')h+=adAcc()
+  else if(sub==='stm')h+=adStm()
+  else h+=adFiles()
   return h
 }
+function adAcc(){
+  const q=S.q.trim().toLowerCase()
+  const all=S.people.filter(p=>!q||p.name.toLowerCase().includes(q)||p.user_code.toLowerCase().includes(q))
+    .sort((a,b)=>a.user_code.localeCompare(b.user_code))
+  let h='<div class="bn nvy"><i class="ti ti-info-circle"></i><span>\u70b9\u51fb\u4efb\u4e00\u8d26\u53f7\u53ef\u4fee\u6539\u59d3\u540d\u3001\u6302\u9760\u5173\u7cfb\u6216\u91cd\u7f6e\u5bc6\u7801</span></div>'
+    +'<input class="srch" id="sq" placeholder="\u641c\u7d22\u59d3\u540d\u6216\u7f16\u53f7" value="'+esc(S.q)+'">'
+    +'<div class="card flat"><div class="card-b">'
+  h+=all.map(p=>{
+    const rad=S.people.find(x=>x.user_code===p.rad_code),hb=S.people.find(x=>x.user_code===p.hrbp_code)
+    const sb2=p.role==='learner'
+      ?((p.user_type==='expert'?'\u4e13\u5bb6':((p.region?p.region+' \u00b7 ':'')+'\u533a\u57df\u7ecf\u7406'))+(rad?' \u00b7 '+esc(rad.name):'')+(hb?' / '+esc(hb.name):''))
+      :RN[p.role]
+    return '<div class="rw" style="cursor:pointer" data-edit="'+p.id+'">'
+      +'<div class="rw-i" style="background:'+(p.role==='learner'?'var(--bg2)':'var(--red-l)')+';color:'+(p.role==='learner'?'var(--t2)':'var(--red)')+'">'
+      +'<i class="ti '+(p.role==='learner'?'ti-user':'ti-user-shield')+'"></i></div>'
+      +'<div class="rw-m"><div class="rw-t">'+esc(p.name)+' <span style="font-weight:400;color:var(--t3);font-size:11.5px">'+esc(p.user_code)+'</span></div>'
+      +'<div class="rw-s">'+sb2+'</div></div>'
+      +'<div class="rw-r"><i class="ti ti-chevron-right" style="color:var(--t3)"></i></div></div>'
+  }).join('')||'<div class="emp"><i class="ti ti-search-off"></i><div class="emp-t">\u6ca1\u6709\u5339\u914d\u7ed3\u679c</div></div>'
+  return h+'</div></div>'
+}
+function adStm(){
+  let h='<div class="bn nvy"><i class="ti ti-info-circle"></i><span>\u53ef\u4fee\u6539\u4e3b\u9898\u540d\u79f0\u3001\u526f\u6807\u9898\u3001\u5f00\u653e\u65e5\u671f\u4e0e\u5ba1\u6279\u89d2\u8272</span></div>'
+    +'<div class="card flat"><div class="card-b">'
+  S.stamps.forEach(st=>{
+    const rl=roles(st).map(r=>RN[r]).join(' + ')||'\u672a\u8bbe\u7f6e'
+    const ct={signin:'\u7b7e\u5230',assignment:'\u4f5c\u4e1a'}[st.complete_type]||st.complete_type
+    h+='<div class="rw" style="cursor:pointer" data-est="'+st.id+'">'
+      +'<div class="rw-i" style="background:var(--red-l);color:var(--red);font-size:12px;font-weight:600">'+st.order_no+'</div>'
+      +'<div class="rw-m"><div class="rw-t">'+esc(st.name)+'</div>'
+      +'<div class="rw-s">'+esc(st.subtitle||'')+' \u00b7 '+ct+' \u00b7 \u5ba1\u6279 '+rl+(st.unlock_date?' \u00b7 '+fmt(st.unlock_date)+'\u5f00\u653e':'')
+      +' \u00b7 \u8bfe\u4ef6 '+S.mats.filter(m=>m.stamp_id===st.id).length+'</div></div>'
+      +'<div class="rw-r"><i class="ti ti-pencil" style="color:var(--t3)"></i></div></div>'
+  })
+  h+='</div></div><div class="lbl">\u4f5c\u4e1a\u9879</div><div class="card flat"><div class="card-b">'
+  S.assigns.forEach(a=>{
+    const st=S.stamps.find(x=>x.id===a.stamp_id)
+    h+='<div class="rw" style="cursor:pointer" data-eas="'+a.id+'">'
+      +'<div class="rw-i" style="background:var(--am-l);color:var(--am);font-size:12px;font-weight:600">'+a.order_no+'</div>'
+      +'<div class="rw-m"><div class="rw-t">'+esc(a.title)+'</div>'
+      +'<div class="rw-s">'+esc(st?st.name:a.stamp_id)+'</div></div>'
+      +'<div class="rw-r"><i class="ti ti-pencil" style="color:var(--t3)"></i></div></div>'
+  })
+  return h+'</div></div>'
+}
+function adFiles(){
+  const q=S.q.trim().toLowerCase()
+  const rows=S.subs.map(s=>{
+    const u=S.people.find(p=>p.id===s.user_id),a=S.assigns.find(x=>x.id===s.assignment_id)
+    return {s:s,u:u,a:a}
+  }).filter(r=>r.u&&r.a).filter(r=>!q||r.u.name.toLowerCase().includes(q)||r.u.user_code.toLowerCase().includes(q)||r.a.title.toLowerCase().includes(q))
+   .sort((x,y)=>new Date(y.s.submitted_at)-new Date(x.s.submitted_at))
+  let h='<div class="bn nvy"><i class="ti ti-info-circle"></i><span>\u5168\u5458\u5df2\u4e0a\u4f20\u4f5c\u4e1a\u6587\u4ef6\uff0c\u5171 '+S.subs.length+' \u4efd\uff0c\u70b9\u51fb\u53ef\u4e0b\u8f7d</span></div>'
+    +'<input class="srch" id="sq" placeholder="\u641c\u7d22\u59d3\u540d\u3001\u7f16\u53f7\u6216\u4f5c\u4e1a\u540d" value="'+esc(S.q)+'">'
+  if(!rows.length)return h+'<div class="card"><div class="emp"><i class="ti ti-file-off"></i><div class="emp-t">\u6682\u65e0\u4e0a\u4f20\u6587\u4ef6</div></div></div>'
+  h+='<div class="card flat"><div class="card-b">'
+  rows.forEach(r=>{
+    const bd=r.s.status==='approved'?'<span class="bg ok">\u5df2\u901a\u8fc7</span>':r.s.status==='rejected'?'<span class="bg rj">\u5df2\u9000\u56de</span>':'<span class="bg wt">\u5f85\u5ba1</span>'
+    h+='<div class="rw"><div class="rw-i" style="background:var(--gr-l);color:var(--gr)"><i class="ti ti-file-spreadsheet"></i></div>'
+      +'<div class="rw-m"><div class="rw-t">'+esc(r.u.name)+' \u00b7 '+esc(r.a.title)+'</div>'
+      +'<div class="rw-s">'+esc(r.s.file_name||'')+' \u00b7 '+fmt(r.s.submitted_at)+'</div></div>'
+      +'<div class="rw-r">'+bd+'<button class="btn btn-sm btn-gh" data-dlf="'+esc(r.s.file_path||'')+'"><i class="ti ti-download"></i></button></div></div>'
+  })
+  return h+'</div></div>'
+}
+function openEditStamp(sid){
+  const st=S.stamps.find(x=>x.id===sid)
+  const ALL=['admin','training','rad','hrbp','hr']
+  const cur=roles(st)
+  let b='<div class="fld"><label>\u4e3b\u9898\u540d\u79f0</label><input id="stN" type="text" value="'+esc(st.name)+'"></div>'
+    +'<div class="fld"><label>\u526f\u6807\u9898</label><input id="stS" type="text" value="'+esc(st.subtitle||'')+'"></div>'
+    +'<div class="fld"><label>\u5f00\u653e\u65e5\u671f</label><input id="stU" type="date" value="'+(st.unlock_date||'')+'"></div>'
+    +'<div class="fld"><label>\u622a\u6b62\u65e5\u671f\uff08\u53ef\u7a7a\uff09</label><input id="stD" type="date" value="'+(st.deadline||'')+'"></div>'
+    +'<div class="fld"><label>\u5ba1\u6279\u89d2\u8272\uff08\u53ef\u591a\u9009\uff0c\u9700\u5168\u90e8\u901a\u8fc7\u624d\u76d6\u7ae0\uff09</label>'
+    +'<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:4px">'
+    +ALL.map(r=>'<label class="chk'+(cur.includes(r)?' on':'')+'"><input type="checkbox" class="rlc" value="'+r+'"'+(cur.includes(r)?' checked':'')+'>'+RN[r]+'</label>').join('')
+    +'</div></div>'
+    +'<button class="btn" id="stSave"><i class="ti ti-device-floppy"></i>\u4fdd\u5b58</button>'
+  const mats=S.mats.filter(m=>m.stamp_id===sid)
+  b+='<div class="lbl" style="margin:22px 0 8px">\u8bfe\u4ef6\u8d44\u6599 \u00b7 \u5168\u5458\u53ef\u4e0b\u8f7d</div>'
+  b+=mats.map(m=>'<div class="fr" style="margin-top:0;margin-bottom:8px"><i class="ti '+fico(m.file_name)+'"></i>'
+      +'<div style="flex:1;min-width:0"><div class="fr-n" style="font-weight:500">'+esc(m.file_name)+'</div>'
+      +'<div style="font-size:11px;color:var(--t3)">'+fsize(m.file_size)+(m.note?' \u00b7 '+esc(m.note):'')+'</div></div>'
+      +'<button class="btn btn-sm btn-gh" data-dlm="'+esc(m.file_path)+'"><i class="ti ti-download"></i></button>'
+      +'<button class="btn btn-sm btn-gh" data-delm="'+m.id+'" style="color:var(--red)"><i class="ti ti-trash"></i></button></div>').join('')
+  b+='<div class="up" id="matUp"><i class="ti ti-cloud-upload"></i><div class="up-t">\u4e0a\u4f20\u8bfe\u4ef6</div>'
+    +'<div class="up-s">PPT / PDF / Excel / \u89c6\u9891\u7b49\uff0c\u5355\u4ef6\u4e0d\u8d85\u8fc7 50MB</div></div>'
+    +'<input type="file" class="hide" id="matFile">'
+  modal('\u7f16\u8f91\u4e3b\u9898',st.id,b)
+  $('matUp').onclick=()=>$('matFile').click()
+  $('matFile').onchange=async()=>{
+    const f=$('matFile').files[0];if(!f)return
+    if(f.size>50*1024*1024){alert('\u5355\u4ef6\u4e0d\u80fd\u8d85\u8fc7 50MB');return}
+    const btn=$('matUp');btn.innerHTML='<i class="ti ti-loader-2"></i><div class="up-t">\u4e0a\u4f20\u4e2d...</div>'
+    const path=sid+'/'+Date.now()+'_'+f.name.replace(/[^\w.\-]/g,'_')
+    const up=await sb.storage.from('materials').upload(path,f)
+    if(up.error){alert('\u4e0a\u4f20\u5931\u8d25\uff1a'+up.error.message);openEditStamp(sid);return}
+    const {error}=await sb.from('materials').insert({stamp_id:sid,file_name:f.name,file_path:path,file_size:f.size,uploaded_by:S.me.id})
+    if(error){alert('\u4fdd\u5b58\u5931\u8d25\uff1a'+error.message);openEditStamp(sid);return}
+    await loadAll();openEditStamp(sid);toast('\u8bfe\u4ef6\u5df2\u4e0a\u4f20')
+  }
+  $('modal').querySelectorAll('[data-dlm]').forEach(e=>e.onclick=()=>dlMat(e.dataset.dlm))
+  $('modal').querySelectorAll('[data-delm]').forEach(e=>e.onclick=async()=>{
+    const mm=S.mats.find(x=>x.id===e.dataset.delm);if(!mm)return
+    if(!confirm('\u786e\u8ba4\u5220\u9664\u8bfe\u4ef6\u300c'+mm.file_name+'\u300d\uff1f'))return
+    await sb.storage.from('materials').remove([mm.file_path])
+    await sb.from('materials').delete().eq('id',mm.id)
+    await loadAll();openEditStamp(sid);toast('\u5df2\u5220\u9664')
+  })
+  $('modal').querySelectorAll('.chk input').forEach(i=>i.onchange=()=>i.parentElement.classList.toggle('on',i.checked))
+  $('stSave').onclick=async()=>{
+    const rl=[...$('modal').querySelectorAll('.rlc')].filter(i=>i.checked).map(i=>i.value)
+    if(!rl.length){alert('\u81f3\u5c11\u9009\u62e9\u4e00\u4e2a\u5ba1\u6279\u89d2\u8272');return}
+    const up={name:$('stN').value.trim(),subtitle:$('stS').value.trim(),
+      unlock_date:$('stU').value||null,deadline:$('stD').value||null,approver_roles:rl}
+    if(!up.name){alert('\u540d\u79f0\u4e0d\u80fd\u4e3a\u7a7a');return}
+    const {error}=await sb.from('stamps').update(up).eq('id',sid)
+    if(error){alert('\u4fdd\u5b58\u5931\u8d25\uff1a'+error.message);return}
+    closeMo();await loadAll();render();toast('\u4e3b\u9898\u5df2\u66f4\u65b0')
+  }
+}
+function openEditAssign(aid){
+  const a=S.assigns.find(x=>x.id===aid)
+  modal('\u7f16\u8f91\u4f5c\u4e1a\u9879',a.id,
+    '<div class="fld"><label>\u4f5c\u4e1a\u6807\u9898</label><input id="asT" type="text" value="'+esc(a.title)+'"></div>'
+    +'<div class="fld"><label>\u4f5c\u4e1a\u8bf4\u660e</label><textarea class="ta" id="asD">'+esc(a.description||'')+'</textarea></div>'
+    +'<button class="btn" style="margin-top:12px" id="asSave"><i class="ti ti-device-floppy"></i>\u4fdd\u5b58</button>')
+  $('asSave').onclick=async()=>{
+    const up={title:$('asT').value.trim(),description:$('asD').value.trim()}
+    if(!up.title){alert('\u6807\u9898\u4e0d\u80fd\u4e3a\u7a7a');return}
+    const {error}=await sb.from('assignments').update(up).eq('id',aid)
+    if(error){alert('\u4fdd\u5b58\u5931\u8d25\uff1a'+error.message);return}
+    closeMo();await loadAll();render();toast('\u4f5c\u4e1a\u5df2\u66f4\u65b0')
+  }
+}
+async function dlFile(path){
+  if(!path){alert('\u6587\u4ef6\u8def\u5f84\u4e3a\u7a7a');return}
+  const r=await sb.storage.from('assignments').createSignedUrl(path,3600)
+  if(r.data&&r.data.signedUrl)window.open(r.data.signedUrl,'_blank');else alert('\u65e0\u6cd5\u751f\u6210\u4e0b\u8f7d\u94fe\u63a5')
+}
+function openEdit(uid){
+  const u=S.people.find(p=>p.id===uid)
+  const rads=S.people.filter(p=>p.role==='rad'),hbs=S.people.filter(p=>p.role==='hrbp')
+  let b='<div class="fld"><label>姓名</label><input id="edName" type="text" value="'+esc(u.name)+'"></div>'
+  if(u.role==='learner'){
+    b+='<div class="fld"><label>身份</label><select id="edType">'
+      +'<option value="am"'+(u.user_type==='am'?' selected':'')+'>区域经理（必修）</option>'
+      +'<option value="expert"'+(u.user_type==='expert'?' selected':'')+'>专家（自愿）</option></select></div>'
+      +'<div class="fld"><label>区域总监</label><select id="edRad"><option value="">未分配</option>'
+      +rads.map(r=>'<option value="'+r.user_code+'"'+(u.rad_code===r.user_code?' selected':'')+'>'+esc(r.name)+' · '+r.user_code+'</option>').join('')
+      +'</select></div>'
+      +'<div class="fld"><label>HRBP</label><select id="edHb"><option value="">未分配</option>'
+      +hbs.map(r=>'<option value="'+r.user_code+'"'+(u.hrbp_code===r.user_code?' selected':'')+'>'+esc(r.name)+' · '+r.user_code+'</option>').join('')
+      +'</select></div>'
+  }
+  b+='<button class="btn" id="edSave"><i class="ti ti-device-floppy"></i>保存修改</button>'
+    +'<div class="lbl" style="margin:20px 0 8px">密码</div>'
+    +'<div class="fld"><label>设置新密码（至少 6 位）</label><input id="edPwd" type="text" placeholder="留空则不修改"></div>'
+    +'<button class="btn btn-gh" id="edReset"><i class="ti ti-key"></i>重置该账号密码</button>'
+  modal('编辑账号',u.user_code+' · '+RN[u.role],b)
+  $('edSave').onclick=async()=>{
+    const up={name:$('edName').value.trim()}
+    if(u.role==='learner'){
+      up.user_type=$('edType').value
+      up.must_complete=up.user_type==='am'
+      up.rad_code=$('edRad').value||null
+      up.hrbp_code=$('edHb').value||null
+    }
+    if(!up.name){alert('姓名不能为空');return}
+    const {error}=await sb.from('profiles').update(up).eq('id',uid)
+    if(error){alert('保存失败：'+error.message);return}
+    closeMo();await loadAll();render();toast('已保存')
+  }
+  $('edReset').onclick=async()=>{
+    const np=$('edPwd').value.trim()
+    if(np.length<6){alert('密码至少 6 位');return}
+    if(!confirm('确认将 '+u.name+' 的密码重置为该值？')) return
+    const btn=$('edReset');btn.disabled=true;btn.textContent='重置中...'
+    try{
+      const {data:{session}}=await sb.auth.getSession()
+      const r=await fetch(SB_URL+'/functions/v1/admin-reset-password',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':SB_KEY},
+        body:JSON.stringify({target_user_id:uid,new_password:np})})
+      const j=await r.json()
+      if(!r.ok||j.error)throw new Error(j.error||'重置失败')
+      closeMo();cel('密码已重置',u.name+' 的新密码为 '+np)
+    }catch(e){
+      alert('重置失败：'+e.message+'\n\n若提示函数不存在，请先在 Supabase 部署 admin-reset-password')
+    }finally{btn.disabled=false;btn.innerHTML='<i class="ti ti-key"></i>重置该账号密码'}
+  }
+}
+function ava(p,size,cls){
+  const n=dispName(p)||'?'
+  const st='width:'+size+'px;height:'+size+'px;border-radius:50%;flex-shrink:0;object-fit:cover;'
+  if(p&&p.avatar_url)return '<img class="'+(cls||'')+'" src="'+esc(p.avatar_url)+'" alt="'+esc(n)+'" style="'+st+'">'
+  return '<div class="'+(cls||'')+'" style="'+st+'display:flex;align-items:center;justify-content:center;background:var(--red);color:#fff;font-size:'+Math.round(size*.4)+'px;font-weight:500">'+esc(n.slice(0,1))+'</div>'
+}
+function openProfile(){
+  const p=S.me
+  modal('\u4e2a\u4eba\u8bbe\u7f6e',p.name+' \u00b7 '+p.user_code,
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">'
+    +'<div id="avPrev">'+ava(p,64)+'</div>'
+    +'<div style="flex:1"><button class="btn btn-gh btn-sm" id="avPick" style="width:100%"><i class="ti ti-camera"></i>\u4e0a\u4f20\u5934\u50cf</button>'
+    +(p.avatar_url?'<button class="btn btn-gh btn-sm" id="avDel" style="width:100%;margin-top:6px">\u79fb\u9664\u5934\u50cf</button>':'')
+    +'<div style="font-size:11px;color:var(--t3);margin-top:6px">\u56fe\u7247\u4e0d\u8d85\u8fc7 2MB</div></div>'
+    +'<input type="file" class="hide" id="avFile" accept="image/*"></div>'
+    +'<div class="fld"><label>\u663e\u793a\u540d\u79f0</label><input id="nkIn" type="text" maxlength="12" placeholder="\u7559\u7a7a\u5219\u4f7f\u7528\u771f\u5b9e\u59d3\u540d" value="'+esc(p.nickname||'')+'"></div>'
+    +'<div class="bn nvy"><i class="ti ti-info-circle"></i><span>\u771f\u5b9e\u59d3\u540d <strong>'+esc(p.name)+'</strong> \u4e0e\u7f16\u53f7 <strong>'+esc(p.user_code)+'</strong> \u4f5c\u4e3a\u8eab\u4efd\u6807\u8bc6\uff0c\u4e0d\u53ef\u4fee\u6539</span></div>'
+    +'<button class="btn" id="pfSave"><i class="ti ti-device-floppy"></i>\u4fdd\u5b58</button>')
+  $('avPick').onclick=()=>$('avFile').click()
+  $('avFile').onchange=async()=>{
+    const f=$('avFile').files[0];if(!f)return
+    if(f.size>2*1024*1024){alert('\u56fe\u7247\u4e0d\u80fd\u8d85\u8fc7 2MB');return}
+    const ext=(f.name.split('.').pop()||'jpg').toLowerCase()
+    const path=S.me.id+'/avatar_'+Date.now()+'.'+ext
+    const up=await sb.storage.from('avatars').upload(path,f,{upsert:true})
+    if(up.error){alert('\u4e0a\u4f20\u5931\u8d25\uff1a'+up.error.message);return}
+    S.newAvatar=AVA_BASE+path
+    $('avPrev').innerHTML='<img src="'+S.newAvatar+'" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover">'
+    toast('\u5934\u50cf\u5df2\u4e0a\u4f20\uff0c\u8bf7\u70b9\u4fdd\u5b58')
+  }
+  const dl=$('avDel');if(dl)dl.onclick=()=>{S.newAvatar='';$('avPrev').innerHTML=ava({name:p.name},64);toast('\u70b9\u4fdd\u5b58\u540e\u751f\u6548')}
+  $('pfSave').onclick=async()=>{
+    const nk=$('nkIn').value.trim()
+    const av=S.newAvatar!==undefined?S.newAvatar:(p.avatar_url||'')
+    const {error}=await sb.rpc('update_my_profile',{p_nickname:nk||null,p_avatar:av||null})
+    if(error){alert('\u4fdd\u5b58\u5931\u8d25\uff1a'+error.message);return}
+    S.newAvatar=undefined
+    closeMo()
+    const {data:{user}}=await sb.auth.getUser()
+    const {data:pf}=await sb.from('profiles').select('*').eq('id',user.id).single()
+    S.me=pf;paintMe();await loadAll();render();toast('\u5df2\u4fdd\u5b58')
+  }
+}
+function paintMe(){
+  const p=S.me
+  $('usrN').textContent=dispName(p)
+  $('avT').innerHTML=ava(p,32)
+  $('usrR').textContent=p.role==='learner'?(p.user_type==='expert'?'\u4e13\u5bb6':'\u533a\u57df\u7ecf\u7406'):RN[p.role]
+}
+function openMyPwd(){
+  modal('修改密码',S.me.name+' · '+S.me.user_code,
+    '<div class="fld"><label>新密码（至少 6 位）</label><input id="p1" type="password" placeholder="输入新密码"></div>'
+    +'<div class="fld"><label>确认新密码</label><input id="p2" type="password" placeholder="再次输入"></div>'
+    +'<button class="btn" id="pGo"><i class="ti ti-check"></i>确认修改</button>')
+  $('pGo').onclick=async()=>{
+    const a=$('p1').value,b=$('p2').value
+    if(a.length<6){alert('密码至少 6 位');return}
+    if(a!==b){alert('两次输入不一致');return}
+    const {error}=await sb.auth.updateUser({password:a})
+    if(error){alert('修改失败：'+error.message);return}
+    closeMo();cel('密码已修改','下次登录请使用新密码')
+  }
+}
 
+/* ========== BIND ========== */
 function bind(){
   const v=$('view')
   v.querySelectorAll('[data-st]').forEach(e=>e.onclick=()=>openStamp(e.dataset.st))
-  v.querySelectorAll('[data-live]').forEach(e=>e.onclick=()=>openLivePanel())
   v.querySelectorAll('[data-u]').forEach(e=>e.onclick=()=>{S.vu=e.dataset.u;render()})
   v.querySelectorAll('[data-oks]').forEach(e=>e.onclick=()=>{const a=e.dataset.oks.split('|');apprSign(a[0],a[1])})
-  v.querySelectorAll('[data-okl]').forEach(e=>e.onclick=()=>apprLive(e.dataset.okl))
   v.querySelectorAll('[data-vs]').forEach(e=>e.onclick=()=>openSub(e.dataset.vs))
   v.querySelectorAll('[data-nt]').forEach(e=>e.onclick=()=>openNotify(e.dataset.nt))
-  const bk=$('bBack');if(bk)bk.onclick=()=>{S.vu=null;render()}
-  const bl=$('bLive');if(bl)bl.onclick=openLiveAdd
+  v.querySelectorAll('[data-edit]').forEach(e=>e.onclick=()=>openEdit(e.dataset.edit))
+  v.querySelectorAll('[data-est]').forEach(e=>e.onclick=()=>openEditStamp(e.dataset.est))
+  v.querySelectorAll('[data-eas]').forEach(e=>e.onclick=()=>openEditAssign(e.dataset.eas))
+  v.querySelectorAll('[data-dlf]').forEach(e=>e.onclick=()=>dlFile(e.dataset.dlf))
+  v.querySelectorAll('[data-at]').forEach(e=>e.onclick=()=>{S.adminTab=e.dataset.at;S.q='';render()})
+  const bk=$('bBack');if(bk)bk.onclick=()=>{S.vu='';render()}
+  const sq=$('sq');if(sq){sq.oninput=()=>{S.q=sq.value;const p=sq.selectionStart;render();const n=$('sq');if(n){n.focus();n.setSelectionRange(p,p)}}}
 }
 function bindMo(){
   const m=$('modal')
   m.querySelectorAll('[data-si]').forEach(e=>e.onclick=()=>doSignin(e.dataset.si))
   m.querySelectorAll('[data-up]').forEach(e=>e.onclick=()=>$('f_'+e.dataset.up).click())
-  m.querySelectorAll('input[type=file]').forEach(i=>i.onchange=()=>doUp(i.id.slice(2),i.files[0]))
+  m.querySelectorAll('input[type=file]').forEach(i=>{if(i.id.startsWith('f_'))i.onchange=()=>doUp(i.id.slice(2),i.files[0])})
+  m.querySelectorAll('[data-dlm]').forEach(e=>e.onclick=()=>dlMat(e.dataset.dlm))
 }
 
+/* ========== ACTIONS ========== */
 async function doSignin(sid){
   const p=pOf(S.me.id,sid)
   await sb.from('stamp_progress').update({status:'signed_in',signed_in_at:new Date().toISOString()}).eq('id',p.id)
-  closeMo();await loadAll();buildNav()
-  cel('签到成功','已提交，等待确认后即可获得印章')
+  closeMo();await loadAll();buildNav();cel('签到成功','已提交，等待确认后即可获得印章')
 }
 async function doUp(aid,f){
   if(!f)return
@@ -730,28 +1274,22 @@ async function doUp(aid,f){
   const old=S.subs.find(s=>s.user_id===S.me.id&&s.assignment_id===aid)
   if(old)await sb.from('submissions').update({file_path:path,file_name:f.name,status:'submitted',note:null,submitted_at:new Date().toISOString()}).eq('id',old.id)
   else await sb.from('submissions').insert({user_id:S.me.id,assignment_id:aid,file_path:path,file_name:f.name,status:'submitted'})
-  closeMo();await loadAll();render()
-  cel('提交成功','作业已上传，等待审批')
+  closeMo();await loadAll();render();cel('提交成功','作业已上传，等待审批')
 }
 async function apprSign(pid,role){
   const now=new Date().toISOString(),p=S.prog.find(x=>x.id===pid),st=S.stamps.find(x=>x.id===p.stamp_id)
-  const u={status:'pending'}
-  u[role+'_ok_at']=now;u[role+'_ok_by']=S.me.id
-  const h={hrbp:p.hrbp_ok_at,rad:p.rad_ok_at,hr:p.hr_ok_at};h[role]=now
-  const done=['hrbp','rad','hr'].every(r=>!st['needs_'+r]||h[r])
-  if(done){u.status='earned';u.earned_at=now}
-  await sb.from('stamp_progress').update(u).eq('id',pid)
-  const rn={hrbp:'HRBP',rad:'组长',hr:'HR'}[role]
-  await notif(p.user_id,done?'恭喜！你已获得「'+st.name+'」印章':'「'+st.name+'」已通过'+rn+'确认')
+  const ap=Object.assign({},appr(p));ap[role]=now
+  const upd={approvals:ap,status:'pending'}
+  const done=roles(st).every(r=>ap[r])
+  if(done){upd.status='earned';upd.earned_at=now}
+  const {error}=await sb.from('stamp_progress').update(upd).eq('id',pid)
+  if(error){alert('审批失败：'+error.message);return}
+  await notif(p.user_id,done?'恭喜！你已获得「'+st.name+'」印章':'「'+st.name+'」已通过'+RN[role]+'确认')
   await loadAll();buildNav()
   if(done){
     const nm=S.people.find(x=>x.id===p.user_id)
-    cel('印章已盖上',(nm?nm.name:'')+' 已获得「'+st.name+'」')
-  }
-}
-async function apprLive(id){
-  await sb.from('live_checkins').update({confirmed:true,confirmed_by:S.me.id,confirmed_at:new Date().toISOString()}).eq('id',id)
-  await loadAll();buildNav()
+    cel('印章已盖上',(nm?nm.name:'')+' 已获得「'+st.name+'」',true)
+  }else toast('已确认，等待其他审批人')
 }
 function openSub(sid){
   const s=S.subs.find(x=>x.id===sid),a=S.assigns.find(x=>x.id===s.assignment_id),u=S.people.find(p=>p.id===s.user_id)
@@ -766,8 +1304,7 @@ function openSub(sid){
     +'<button class="btn btn-gh" id="rjBtn">退回修改</button></div>')
   $('dlBtn').onclick=async()=>{
     const r=await sb.storage.from('assignments').createSignedUrl(s.file_path,3600)
-    if(r.data&&r.data.signedUrl)window.open(r.data.signedUrl,'_blank')
-    else alert('无法生成下载链接')
+    if(r.data&&r.data.signedUrl)window.open(r.data.signedUrl,'_blank');else alert('无法生成下载链接')
   }
   $('apBtn').onclick=()=>revSub(sid,'approved')
   $('rjBtn').onclick=()=>revSub(sid,'rejected')
@@ -777,17 +1314,9 @@ async function revSub(sid,status){
   if(status==='rejected'&&!note){alert('退回时请填写原因');return}
   const s=S.subs.find(x=>x.id===sid),a=S.assigns.find(x=>x.id===s.assignment_id)
   await sb.from('submissions').update({status:status,note:note||null,reviewed_at:new Date().toISOString(),reviewed_by:S.me.id}).eq('id',sid)
-  const ids=S.assigns.filter(x=>x.stamp_id===a.stamp_id).map(x=>x.id)
-  const oth=S.subs.filter(x=>x.user_id===s.user_id&&ids.includes(x.assignment_id)&&x.id!==sid)
-  if(status==='approved'&&oth.length===ids.length-1&&oth.every(x=>x.status==='approved')){
-    const p=pOf(s.user_id,a.stamp_id),st=S.stamps.find(x=>x.id===a.stamp_id),now=new Date().toISOString()
-    const u={status:'pending'};u[S.me.role+'_ok_at']=now
-    const h={hrbp:p.hrbp_ok_at,rad:p.rad_ok_at,hr:p.hr_ok_at};h[S.me.role]=now
-    if(['hrbp','rad','hr'].every(r=>!st['needs_'+r]||h[r])){u.status='earned';u.earned_at=now}
-    await sb.from('stamp_progress').update(u).eq('id',p.id)
-  }
   await notif(s.user_id,status==='approved'?'作业「'+a.title+'」已通过审批':'作业「'+a.title+'」被退回：'+note)
   closeMo();await loadAll();buildNav()
+  toast(status==='approved'?'已批准':'已退回')
 }
 function notif(uid,body){return sb.from('notifications').insert({to_user:uid,from_user:S.me.id,body:body})}
 function openNotify(uid){
@@ -796,35 +1325,7 @@ function openNotify(uid){
     +'<button class="btn" style="margin-top:12px" id="ntS"><i class="ti ti-send"></i>发送</button>')
   $('ntS').onclick=async()=>{
     const b=$('ntB').value.trim();if(!b)return
-    await notif(uid,b);closeMo();cel('已发送','提醒已推送到对方的消息中心')
-  }
-}
-function openLivePanel(){
-  const u=S.me.id
-  const m=S.live.filter(l=>l.user_id===u).sort((a,b)=>new Date(b.checked_at)-new Date(a.checked_at))
-  const n=m.filter(l=>l.confirmed).length
-  let b='<div style="text-align:center;padding:4px 0 16px">'
-    +'<div class="seal cnt" style="width:74px;height:74px;margin:0 auto 10px"><b style="font-size:27px">'+n+'</b><span style="font-size:10px">\u5df2\u786e\u8ba4</span></div>'
-    +'<div style="font-size:12.5px;color:var(--t2)">\u7d2f\u8ba1\u6253\u5361\u6b21\u6570 \u00b7 \u5168\u7a0b\u6301\u7eed</div>'
-    +(m.length>n?'<div style="font-size:12px;color:var(--am);margin-top:4px">\u53e6\u6709 '+(m.length-n)+' \u6b21\u5f85\u786e\u8ba4</div>':'')
-    +'</div><button class="btn" id="lvAdd"><i class="ti ti-plus"></i>\u65b0\u589e\u8bfe\u540e\u6253\u5361</button>'
-  if(m.length){
-    b+='<div class="lbl" style="margin:18px 0 4px">\u6253\u5361\u8bb0\u5f55</div>'
-      +m.map(l=>'<div class="rw"><div class="rw-i" style="background:'+(l.confirmed?'var(--gr-l)':'var(--am-l)')+';color:'+(l.confirmed?'var(--gr)':'var(--am)')+'"><i class="ti '+(l.confirmed?'ti-check':'ti-clock')+'"></i></div>'
-      +'<div class="rw-m"><div class="rw-t">'+esc(l.session_name)+'</div><div class="rw-s">'+fmt(l.checked_at)+'</div></div>'
-      +'<div class="rw-r">'+(l.confirmed?'<span class="bg ok">\u5df2\u786e\u8ba4</span>':'<span class="bg wt">\u5f85\u786e\u8ba4</span>')+'</div></div>').join('')
-  }
-  modal('\u4e3b\u98987 \u00b7 \u4e13\u4e1a\u7ebf\u4e0a\u8bfe','\u6bcf\u6b21\u8bfe\u540e\u6253\u5361\uff0c\u7d2f\u8ba1\u4e0d\u5c01\u9876',b)
-  $('lvAdd').onclick=openLiveAdd
-}
-function openLiveAdd(){
-  modal('新增直播课打卡','请填写本次课程名称',
-    '<div class="fld"><label>课程名称</label><input id="lvNm" type="text" placeholder="例如 言语测试基础"></div>'
-    +'<button class="btn" id="lvG"><i class="ti ti-check"></i>提交打卡</button>')
-  $('lvG').onclick=async()=>{
-    const n=$('lvNm').value.trim();if(!n){alert('请填写课程名称');return}
-    await sb.from('live_checkins').insert({user_id:S.me.id,session_name:n})
-    closeMo();await loadAll();render();cel('打卡成功','等待 HRBP 确认后计入次数')
+    await notif(uid,b);closeMo();toast('提醒已发送')
   }
 }
 async function openNotifs(){
@@ -834,10 +1335,11 @@ async function openNotifs(){
     :'<div class="emp"><i class="ti ti-inbox"></i><div class="emp-t">暂无消息</div></div>')
   if(un.length){
     await sb.from('notifications').update({read_at:new Date().toISOString()}).in('id',un.map(n=>n.id))
-    await loadAll()
+    await loadAll();$('dot').classList.add('hide')
   }
 }
 
+/* ========== UI HELPERS ========== */
 function modal(t,s,b){
   $('modal').innerHTML='<div class="ov" id="ov"><div class="mo"><div class="mo-h"><div>'
     +'<div class="mo-t">'+esc(t)+'</div>'+(s?'<div class="mo-s">'+esc(s)+'</div>':'')+'</div>'
@@ -846,13 +1348,36 @@ function modal(t,s,b){
   $('ov').onclick=e=>{if(e.target.id==='ov')closeMo()}
   bindMo()
 }
-function cel(t,s){
+function cel(t,s,confetti){
   $('modal').innerHTML='<div class="ov" id="ov"><div class="mo"><div class="mo-c">'
     +'<div class="mo-cr"><i class="ti ti-rosette"></i></div>'
     +'<div class="mo-t">'+esc(t)+'</div><div class="mo-s" style="margin-top:6px">'+esc(s)+'</div>'
     +'<button class="btn" style="margin-top:22px" id="cOk">好的</button></div></div></div>'
   $('cOk').onclick=closeMo
   $('ov').onclick=e=>{if(e.target.id==='ov')closeMo()}
+  if(confetti)burst()
+}
+function burst(){
+  const cs=['#C8102E','#F2CDD4','#8B0A1E','#1E2A3D','#EF9F27']
+  for(let i=0;i<44;i++){
+    const d=document.createElement('div')
+    d.className='cf'
+    d.style.left=Math.random()*100+'vw'
+    d.style.background=cs[i%cs.length]
+    d.style.setProperty('--rot',(Math.random()*720-360)+'deg')
+    d.style.animationDuration=(1.5+Math.random()*1.1)+'s'
+    d.style.animationDelay=(Math.random()*.35)+'s'
+    d.style.borderRadius=Math.random()>.5?'50%':'1px'
+    document.body.appendChild(d)
+    setTimeout(()=>d.remove(),3200)
+  }
+}
+function toast(msg){
+  const d=document.createElement('div')
+  d.textContent=msg
+  d.style.cssText='position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--nv);color:#fff;padding:10px 20px;border-radius:22px;font-size:13px;z-index:400;box-shadow:0 6px 22px rgba(0,0,0,.2);animation:fu .3s var(--ez) both'
+  document.body.appendChild(d)
+  setTimeout(()=>{d.style.opacity='0';d.style.transition='opacity .3s';setTimeout(()=>d.remove(),320)},1900)
 }
 function closeMo(){$('modal').innerHTML=''}
 </script>
